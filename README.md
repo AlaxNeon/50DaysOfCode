@@ -52,7 +52,7 @@ class Solution {
         return result;
     }
 }
-
+```java
 ---
 
 ## 🧩 Problem 2 — Water Bottles  
