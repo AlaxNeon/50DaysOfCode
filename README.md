@@ -52,7 +52,7 @@ class Solution {
         return result;
     }
 }
-
+```
 ---
 
 ## 🧩 Problem 2 — Water Bottles  
@@ -80,6 +80,38 @@ class Solution {
             empty = newBottles + empty % numExchange;
         }
         return total;
+    }
+}
+
+```
+---
+
+## 🧩 Problem 3 — Two Sum  
+**LeetCode 1 | Easy**
+
+### 🔍 Problem Description  
+Given an array of integers `nums` and an integer `target`,  
+return indices of the two numbers such that they add up to the target.
+
+### 💡 Approach  
+- Use a **HashMap** to store each element and its index.  
+- For each element, check if `target - nums[i]` already exists in the map.  
+- Return indices when found.  
+- Time complexity: `O(n)`.
+
+### 💻 Code
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[] { map.get(complement), i };
+            }
+            map.put(nums[i], i);
+        }
+        return new int[] {};
     }
 }
 ```
@@ -113,38 +145,7 @@ class Solution {
         return new int[] {};
     }
 }
-
----
-
-## 🧩 Problem 3 — Two Sum  
-**LeetCode 1 | Easy**
-
-### 🔍 Problem Description  
-Given an array of integers `nums` and an integer `target`,  
-return indices of the two numbers such that they add up to the target.
-
-### 💡 Approach  
-- Use a **HashMap** to store each element and its index.  
-- For each element, check if `target - nums[i]` already exists in the map.  
-- Return indices when found.  
-- Time complexity: `O(n)`.
-
-### 💻 Code
-```java
-class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < nums.length; i++) {
-            int complement = target - nums[i];
-            if (map.containsKey(complement)) {
-                return new int[] { map.get(complement), i };
-            }
-            map.put(nums[i], i);
-        }
-        return new int[] {};
-    }
-}
-
+```
 ---
 
 ## 🧩 Problem 5 — Longest Substring Without Repeating Characters  
@@ -177,7 +178,7 @@ class Solution {
         return maxLen;
     }
 }
-
+```
 ---
 
 ### 🎯 Conclusion — Day 1  
