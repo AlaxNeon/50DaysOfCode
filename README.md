@@ -5,7 +5,7 @@
 <summary><b>📅 Navigate Days</b></summary>
 
 - [Day 1 — Problem Solving & DSA](#-day-1)
-- [Day 2 — Dynamic Programming & Optimization](#-50-days-of-code--day-2)
+- [Day 2 — Dynamic Programming & Optimization](#-day-2)
 - [Day 3 — Coming Soon 🚧](#coming-soon-)
 - [Day 4 — Coming Soon 🚧](#coming-soon-)
 - [Day 5 — Coming Soon 🚧](#coming-soon-)
