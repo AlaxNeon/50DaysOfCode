@@ -398,3 +398,51 @@ class Solution {
     }
 }
 ```
+
+## 🧩 Problem 4 — Zigzag Conversion  
+**LeetCode 6 | Medium**
+
+### 🔍 Problem Description  
+The string `"PAYPALISHIRING"` is written in a zigzag pattern on a given number of rows like this:  
+
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+
+Then read line by line: `"PAHNAPLSIIGYIR"`  
+
+Write code that converts a given string into its zigzag form given a number of rows.
+
+### 💡 Approach  
+- Use a cycle length of `2 * numRows - 2`.  
+- Traverse each row, collecting characters at appropriate indices.  
+- For middle rows, add the extra characters that fall in between cycles.  
+- Time complexity: `O(n)`.
+
+### 💻 Code
+```java
+class Solution {
+    public String convert(String s, int numRows) {
+        if (numRows == 1 || s.length() <= numRows) return s;
+
+        int len = s.length();
+        char[] result = new char[len];
+        int idx = 0;
+        int cycleLen = 2 * numRows - 2;
+
+        for (int i = 0; i < numRows; i++) {
+            for (int j = i; j < len; j += cycleLen) {
+                result[idx++] = s.charAt(j);
+
+                // Add middle character (not on first or last row)
+                int midIdx = j + cycleLen - 2 * i;
+                if (i != 0 && i != numRows - 1 && midIdx < len) {
+                    result[idx++] = s.charAt(midIdx);
+                }
+            }
+        }
+        return new String(result);
+    }
+}
+```
