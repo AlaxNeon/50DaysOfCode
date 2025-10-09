@@ -4,9 +4,9 @@
 
 - [Day 1](#day-1)
 - [Day 2](#day-2)
-- [Day 3 — Coming Soon 🚧](#coming-soon-)
-- [Day 4 — Coming Soon 🚧](#coming-soon-)
-- [Day 5 — Coming Soon 🚧](#coming-soon-)
+- [Day 3 — Coming Soon 🚧](#day-3)
+- [Day 4 — Coming Soon 🚧](#day-4)
+- [Day 5 — Coming Soon 🚧](#day-5)
 
 </details>
 </div>
