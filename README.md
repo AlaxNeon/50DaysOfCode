@@ -1,3 +1,19 @@
+<!-- ──────────────── 🎯 NAVIGATION DROPDOWN ──────────────── -->
+<div align="right">
+
+<details>
+<summary><b>📅 Navigate Days</b></summary>
+
+- [Day 1 — Problem Solving & DSA](#-day-1)
+- [Day 2 — Dynamic Programming & Optimization](#-50-days-of-code--day-2)
+- [Day 3 — Coming Soon 🚧](#coming-soon-)
+- [Day 4 — Coming Soon 🚧](#coming-soon-)
+- [Day 5 — Coming Soon 🚧](#coming-soon-)
+
+</details>
+
+</div>
+
 ## Day 1
 # 🚀 50 Days of Code — Day 1
 
