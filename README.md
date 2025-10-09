@@ -52,7 +52,7 @@ class Solution {
         return result;
     }
 }
-```java
+
 ---
 
 ## 🧩 Problem 2 — Water Bottles  
@@ -82,7 +82,7 @@ class Solution {
         return total;
     }
 }
-
+```
 ---
 
 ## 🧩 Problem 3 — Two Sum  
