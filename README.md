@@ -446,3 +446,62 @@ class Solution {
     }
 }
 ```
+
+## 🧩 Problem 5 — Reverse Integer  
+**LeetCode 7 | Medium**
+
+### 🔍 Problem Description  
+Given a signed 32-bit integer `x`, return `x` with its digits reversed.  
+If reversing `x` causes the value to go outside the signed 32-bit integer range `[-2^31, 2^31 - 1]`, return `0`.
+
+You must assume the environment does not allow you to store 64-bit integers.
+
+#### Examples:
+- **Example 1:**  
+  Input: `x = 123`  
+  Output: `321`
+
+- **Example 2:**  
+  Input: `x = -123`  
+  Output: `-321`
+
+- **Example 3:**  
+  Input: `x = 120`  
+  Output: `21`
+
+### 💡 Approach  
+- Pop the last digit of `x` using modulus operation.  
+- Push it into `reversed` by multiplying `reversed` by 10 and adding the popped digit.  
+- Check for overflow by reversing the operation and ensuring the result is consistent.  
+- Time complexity: `O(log₁₀ n)` where `n` is the value of `x`.
+
+### 💻 Code
+```java
+class Solution {
+    public int reverse(int x) {
+        int reversed = 0;
+
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+
+            // Check for overflow
+            int temp = reversed * 10 + pop;
+            if ((temp - pop) / 10 != reversed) return 0;
+
+            reversed = temp;
+        }
+
+        return reversed;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 2  
+Day 2 of #50DaysOfCode was a productive challenge!
+Solved 5 diverse problems that strengthened my skills in binary search, string manipulation, array handling, and integer operations.
+Each problem pushed me to think critically and optimize efficiently. Excited for Day 3! 🚀
+
+---
