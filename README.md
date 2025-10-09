@@ -182,3 +182,109 @@ Excited to keep building momentum and learning more each day! 🚀
 
 ## Day 2
 # 🚀 50 Days of Code — Day 2
+
+Welcome to **Day 2** of my #50DaysOfCode challenge!  
+Today’s focus was on advanced problem-solving with **dynamic programming** and **optimization techniques**.
+
+---
+
+## 🧩 Problem 1 — Find the Minimum Amount of Time to Brew Potions  
+**LeetCode 3494 | Medium**
+
+### 🔍 Problem Description  
+You are given two integer arrays `skill` and `mana`, representing `n` wizards and `m` potions respectively.  
+Each potion must pass through all wizards sequentially.  
+Time taken by wizard `i` on potion `j` is `skill[i] * mana[j]`.  
+Find the **minimum time required** to brew all potions.
+
+### 💡 Approach  
+- Use **prefix sums** to store brewing times for each potion.  
+- Maintain a `prev` array to track the cumulative time taken for potions.  
+- For each potion, compute the earliest start time considering synchronization constraints.  
+- Swap arrays to optimize space usage.  
+- Time complexity: `O(n × m)`.
+
+### 💻 Code
+```java
+import java.io.*;
+
+class Solution {
+    public long minTime(int[] skill, int[] mana) {
+        int n = skill.length;
+        int m = mana.length;
+        
+        long[] prev = new long[n + 1];
+        long[] curr = new long[n + 1];
+        
+        // First potion
+        long sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += (long) skill[i] * mana[0];
+            prev[i + 1] = sum;
+        }
+        
+        long prevStart = 0;
+        long result = prev[n];
+        
+        for (int j = 1; j < m; j++) {
+            // Compute current prefix inline
+            sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += (long) skill[i] * mana[j];
+                curr[i + 1] = sum;
+            }
+            
+            // Find minimum start time
+            long minStart = prevStart + (long) skill[0] * mana[j - 1];
+            
+            for (int i = 0, end = n - 1; i < end; i++) {
+                long constraint = prevStart + prev[i + 2] - curr[i + 1];
+                if (constraint > minStart) minStart = constraint;
+            }
+            
+            result = minStart + curr[n];
+            prevStart = minStart;
+            
+            // Swap
+            long[] temp = prev; prev = curr; curr = temp;
+        }
+        
+        return result;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        StreamTokenizer in = new StreamTokenizer(new BufferedReader(new InputStreamReader(System.in), 65536));
+        StringBuilder out = new StringBuilder();
+        
+        in.nextToken();
+        int testCases = (int) in.nval;
+        
+        Solution sol = new Solution();
+        
+        while (testCases-- > 0) {
+            in.nextToken();
+            int n = (int) in.nval;
+            int[] skill = new int[n];
+            for (int i = 0; i < n; i++) {
+                in.nextToken();
+                skill[i] = (int) in.nval;
+            }
+            
+            in.nextToken();
+            int m = (int) in.nval;
+            int[] mana = new int[m];
+            for (int i = 0; i < m; i++) {
+                in.nextToken();
+                mana[i] = (int) in.nval;
+            }
+            
+            out.append(sol.minTime(skill, mana)).append('\n');
+        }
+        
+        System.out.print(out);
+    }
+}
+```
+
