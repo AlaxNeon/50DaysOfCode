@@ -4,7 +4,7 @@
 
 - [Day 1](#day-1)
 - [Day 2](#day-2)
-- [Day 3 — Coming Soon 🚧](#day-3)
+- [Day 3](#day-3)
 - [Day 4 — Coming Soon 🚧](#day-4)
 - [Day 5 — Coming Soon 🚧](#day-5)
 
@@ -12,7 +12,7 @@
 </div>
 
 ## Day 1
-# 🚀 50 Days of Code — Day 1
+# 🚀 50 Days of LeetCode — Day 1
 
 Welcome to **Day 1** of my #50DaysOfCode challenge!  
 Today’s focus was on problem-solving, logic building, and deepening my understanding of **Data Structures & Algorithms** through five LeetCode problems.
@@ -194,7 +194,7 @@ Excited to keep building momentum and learning more each day! 🚀
 ---
 
 ## Day 2
-# 🚀 50 Days of Code — Day 2
+# 🚀 50 Days of LeetCode — Day 2
 
 Welcome to **Day 2** of my #50DaysOfCode challenge!  
 Today’s focus was on advanced problem-solving with **dynamic programming** and **optimization techniques**.
@@ -503,5 +503,66 @@ class Solution {
 Day 2 of #50DaysOfCode was a productive challenge!
 Solved 5 diverse problems that strengthened my skills in binary search, string manipulation, array handling, and integer operations.
 Each problem pushed me to think critically and optimize efficiently. Excited for Day 3! 🚀
+
+---
+
+## Day 3
+# 🚀 50 Days of LeetCode — Day 3
+
+Welcome to **Day 3** of my #50DaysOfCode challenge!  
+Today’s focus was on advanced problem-solving with **dynamic programming** and **optimization techniques**.
+
+---
+
+## 🧩 Problem 1 — Taking Maximum Energy From the Mystic Dungeon  
+**LeetCode 3147 | Medium**
+
+### 🔍 Problem Description  
+You are given an integer array `energy` and an integer `k`.  
+Starting from any magician `i`, you absorb their energy (which can be positive or negative) and are then **teleported to magician (i + k)** repeatedly — until you move out of the array.  
+
+You must **choose a starting point** that maximizes the **total energy gained** during this teleportation sequence.  
+
+Return the **maximum possible energy** you can obtain. 
+
+---
+
+### 💭 Approach  
+
+1. Traverse **from the end** of the array because teleportation moves forward by `k` steps.  
+2. For each possible starting point within the last `k` positions, simulate the jumps backward by steps of `k`.  
+3. Keep a **running sum** of energies and track the **maximum total** encountered.  
+4. The result is the **maximum energy** among all possible paths.  
+
+This approach ensures we efficiently evaluate all valid teleportation paths without redundant recomputation.  
+
+---
+
+### 💻 Code  
+```java
+class Solution {
+    public int maximumEnergy(int[] energy, int k) {
+        int n = energy.length;
+        int maxEnergy = Integer.MIN_VALUE;
+        
+        for (int start = n - 1; start >= n - k && start >= 0; start--) {
+            int sum = 0;
+            for (int i = start; i >= 0; i -= k) {
+                sum += energy[i];
+                maxEnergy = Math.max(maxEnergy, sum);
+            }
+        }
+        
+        return maxEnergy;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 3  
+Day 3 of #50DaysOfCode was a great deep dive into optimization and simulation problems.
+Solved an interesting teleportation energy problem while strengthening algorithmic thinking and efficiency techniques.
+Excited to tackle more challenging problems tomorrow! 🚀
 
 ---
