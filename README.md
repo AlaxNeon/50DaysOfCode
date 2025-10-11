@@ -5,7 +5,7 @@
 - [Day 1](#day-1)
 - [Day 2](#day-2)
 - [Day 3](#day-3)
-- [Day 4 — Coming Soon 🚧](#day-4)
+- [Day 4](#day-4)
 - [Day 5 — Coming Soon 🚧](#day-5)
 
 </details>
@@ -564,5 +564,104 @@ class Solution {
 Day 3 of #50DaysOfCode was a great deep dive into optimization and simulation problems.
 Solved an interesting teleportation energy problem while strengthening algorithmic thinking and efficiency techniques.
 Excited to tackle more challenging problems tomorrow! 🚀
+
+---
+
+## Day 4
+# 🚀 50 Days of LeetCode — Day 4
+
+Welcome to **Day 4** of my #50DaysOfCode challenge!  
+Today’s focus was on **Dynamic Programming** and **Greedy Optimization** — solving problems that require efficient state management and decision-making.
+
+---
+
+## 🧩 Problem — Taking Maximum Total Damage  
+**LeetCode 3148 | Medium**
+
+### 🔍 Problem Description  
+You are given an integer array `power`, where each element represents the damage value of a spell.  
+If you pick a spell with damage `x`, you **cannot** pick any spell with damage values of `x - 2`, `x - 1`, `x + 1`, or `x + 2`.  
+Your goal is to **maximize the total damage** you can deal.
+
+In other words, you must choose a subset of spells such that no two chosen spells have damage values within a difference of 2, while maximizing the sum of their total damage values.
+
+---
+
+### 💭 Approach  
+
+1. **Sort and group** all spells by their damage value.  
+   - Count the occurrences of each damage value and multiply to get total damage for that group.
+2. Use **Dynamic Programming (DP)** where  
+   - `dp[i]` = maximum damage obtainable considering all spells up to group `i`.
+3. For each group `i`:
+   - Either **skip** the current group (`dp[i] = dp[i-1]`)  
+   - Or **take** it and add to the last compatible group (`damage[j] <= damage[i] - 3`).
+4. The final answer is the last value in the `dp` array.
+
+This method ensures optimal substructure and avoids recomputation, achieving an **O(n)** time complexity.
+
+---
+
+### 💻 Code  
+```java
+class Solution {
+    public long maximumTotalDamage(int[] power) {
+
+        Arrays.sort(power);
+        
+        int n = power.length;
+        if (n == 0) return 0;
+        
+        int[] damages = new int[n];
+        int[] counts = new int[n];
+        int groupCount = 0;
+        
+        for (int i = 0; i < n; ) {
+            int damage = power[i];
+            int count = 0;
+            while (i < n && power[i] == damage) {
+                count++;
+                i++;
+            }
+            damages[groupCount] = damage;
+            counts[groupCount] = count;
+            groupCount++;
+        }
+        
+        if (groupCount == 0) return 0;
+        
+        long[] dp = new long[groupCount];
+        dp[0] = (long) damages[0] * counts[0];
+        
+        int j = 0;
+        
+        for (int i = 1; i < groupCount; i++) {
+            long totalDamage = (long) damages[i] * counts[i];
+            
+            dp[i] = dp[i - 1];
+            
+            while (j < i && damages[j] <= damages[i] - 3) {
+                j++;
+            }
+            
+            long takeValue = totalDamage;
+            if (j > 0) {
+                takeValue += dp[j - 1];
+            }
+            
+            dp[i] = Math.max(dp[i], takeValue);
+        }
+        
+        return dp[groupCount - 1];
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 4  
+Day 4 of #50DaysOfCode was all about mastering Dynamic Programming with constraints.
+This problem taught me how to efficiently combine grouping, sorting, and state optimization to handle overlapping intervals.
+Each day, the logic feels more intuitive — and the grind continues! ⚔️🔥
 
 ---
