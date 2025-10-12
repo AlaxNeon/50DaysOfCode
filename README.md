@@ -6,7 +6,7 @@
 - [Day 2](#day-2)
 - [Day 3](#day-3)
 - [Day 4](#day-4)
-- [Day 5 — Coming Soon 🚧](#day-5)
+- [Day 5](#day-5)
 
 </details>
 </div>
@@ -663,5 +663,145 @@ class Solution {
 Day 4 of #50DaysOfCode was all about mastering Dynamic Programming with constraints.
 This problem taught me how to efficiently combine grouping, sorting, and state optimization to handle overlapping intervals.
 Each day, the logic feels more intuitive — and the grind continues! ⚔️🔥
+
+---
+
+## Day 5
+# 🚀 50 Days of LeetCode — Day 5
+
+Welcome to **Day 5** of my #50DaysOfCode challenge!  
+Today’s focus was on **Dynamic Programming**, **Combinatorics**, and **Bit Manipulation**, diving deep into a challenging mathematical problem that combined logic with optimization.
+
+---
+
+## 🧩 Problem — Find Sum of Array Product of Magical Sequences  
+**LeetCode 3539 | Hard**
+
+### 🔍 Problem Description  
+You are given two integers `m` and `k`, and an integer array `nums`.
+
+A sequence `seq` is called **magical** if:  
+- `seq` has a size of `m`.  
+- `0 <= seq[i] < nums.length`.  
+- The binary representation of `2^seq[0] + 2^seq[1] + ... + 2^seq[m - 1]` has exactly `k` set bits.  
+
+The **array product** of this sequence is defined as:  
+`prod(seq) = nums[seq[0]] * nums[seq[1]] * ... * nums[seq[m - 1]]`.  
+
+You must return the **sum of all array products** of valid magical sequences, modulo `10^9 + 7`.
+
+---
+
+### 💭 Approach  
+
+This problem blends **Dynamic Programming** with **Combinatorics** to efficiently compute valid sequences without explicitly generating all possibilities.
+
+1. **DP State:**  
+   Use recursion with memoization to track:  
+   - `remM`: remaining selections  
+   - `remK`: remaining set bits  
+   - `idx`: current index in `nums`  
+   - `carry`: accumulated carry bits  
+
+2. **Transition Logic:**  
+   For each count of selections for `nums[idx]`, calculate:  
+   - The number of ways (`nCr`)  
+   - The power contribution (`nums[idx]^count`)  
+   - The carry propagation for new set bits  
+
+3. **Memoization:**  
+   Cache states using a string key to prevent recomputation.  
+
+4. **Precomputations:**  
+   - Precompute all powers (`powNums[i][t]`)  
+   - Precompute combinations (`comb[i][j]`) using Pascal’s triangle.  
+
+This approach efficiently navigates the combinatorial explosion and handles bit operations smartly.
+
+---
+
+### 💻 Code  
+```java
+class Solution {
+    static final int MOD = 1_000_000_007;
+    int m, k, n;
+    long[][] powNums;
+    long[][] comb;
+    int[] nums;
+    java.util.Map<String, Long> memo;
+
+    public int magicalSum(int m, int k, int[] nums) {
+        this.m = m;
+        this.k = k;
+        this.n = nums.length;
+        this.nums = nums;
+        this.memo = new java.util.HashMap<>();
+
+        precomputePowers();
+        precomputeCombinations();
+
+        long ans = dp(m, k, 0, 0);
+        return (int)(ans % MOD);
+    }
+
+    private long dp(int remM, int remK, int idx, int carry) {
+        if (remM < 0 || remK < 0) return 0;
+        if (remM == 0)
+            return (remK == Integer.bitCount(carry)) ? 1 : 0;
+        if (idx == n) return 0;
+
+        String key = remM + "," + remK + "," + idx + "," + carry;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        long res = 0;
+        for (int count = 0; count <= remM; count++) {
+            long ways = comb[remM][count];
+            long val = powNums[idx][count];
+            long contribution = (ways * val) % MOD;
+
+            int newCarry = carry + count;
+            int bitHere = newCarry & 1;
+            int nextCarry = newCarry >> 1;
+
+            long sub = dp(remM - count, remK - bitHere, idx + 1, nextCarry);
+            if (sub != 0) {
+                res = (res + sub * contribution) % MOD;
+            }
+        }
+
+        memo.put(key, res);
+        return res;
+    }
+
+    private void precomputePowers() {
+        powNums = new long[n][m + 1];
+        for (int i = 0; i < n; i++) {
+            powNums[i][0] = 1;
+            for (int t = 1; t <= m; t++) {
+                powNums[i][t] = (powNums[i][t - 1] * nums[i]) % MOD;
+            }
+        }
+    }
+
+    private void precomputeCombinations() {
+        comb = new long[m + 1][m + 1];
+        for (int i = 0; i <= m; i++) {
+            comb[i][0] = 1;
+            for (int j = 1; j <= i; j++) {
+                comb[i][j] = (comb[i - 1][j - 1] + comb[i - 1][j]) % MOD;
+            }
+        }
+    }
+}
+```
+---
+
+### 🎯 Conclusion — Day 5  
+
+Day 5 was a deep dive into mathematical DP and bit-level logic.
+It tested my understanding of combinatorics, memoization, and bitwise operations all in one challenge!
+
+Proud to see progress through tougher problems — the journey continues with even greater enthusiasm. 🚀
+Here’s to consistent growth and sharper problem-solving!
 
 ---
