@@ -2,11 +2,12 @@
 <details>
 <summary><b>📅 Navigate Days</b></summary>
 
-[Day 1](#day-1)
-[Day 2](#day-2)
+- [Day 1](#day-1)
+- [Day 2](#day-2)
 - [Day 3](#day-3)
 - [Day 4](#day-4)
 - [Day 5](#day-5)
+- [Day 6](#day-6)
 
 </details>
 </div>
@@ -803,5 +804,98 @@ It tested my understanding of combinatorics, memoization, and bitwise operations
 
 Proud to see progress through tougher problems — the journey continues with even greater enthusiasm. 🚀
 Here’s to consistent growth and sharper problem-solving!
+
+---
+## Day 6
+# 🚀 50 Days of LeetCode — Day 6
+
+Welcome to **Day 6** of my #50DaysOfCode challenge!  
+Today’s focus was on **String Manipulation**, **Anagram Checking**, and **Efficient Comparison Logic** — a simple yet elegant problem that reinforced the power of clean iteration and frequency analysis.
+
+---
+
+## 🧩 Problem — Find Resultant Array After Removing Anagrams  
+**LeetCode 2273 | Easy**
+
+### 🔍 Problem Description  
+You are given a 0-indexed string array `words`, where each element consists of lowercase English letters.  
+
+You can perform the following operation any number of times:
+- Choose an index `i` such that `0 < i < words.length` and `words[i - 1]` and `words[i]` are **anagrams**,  
+  then delete `words[i]` from the array.
+
+Return the resulting array after performing all such operations.  
+The key observation is that the **order of deletion does not affect the final result**.
+
+An **anagram** is a word formed by rearranging all letters of another word exactly once.
+
+---
+
+### 💭 Approach  
+
+1. **Iterative Filtering:**  
+   Iterate through the `words` array, maintaining only those that are **not anagrams** of the previous word.  
+
+2. **Frequency Comparison:**  
+   Convert each word into a frequency array of size 26 (for each lowercase letter).  
+   Two words are anagrams if their frequency arrays are identical.  
+
+3. **Optimization:**  
+   - Avoid sorting each string (O(n log n)) by directly comparing character counts (O(26)).  
+   - Update the “previous frequency” only when a non-anagram word is added to the result.  
+
+This leads to an **O(n * word_length)** time complexity — highly efficient for the given constraints.
+
+---
+
+### 💻 Code  
+```java
+class Solution {
+    public List<String> removeAnagrams(String[] words) {
+        List<String> result = new ArrayList<>(words.length);
+        result.add(words[0]);
+        
+        int[] prevFreq = getFrequency(words[0]);
+        
+        for (int i = 1; i < words.length; i++) {
+            String word = words[i];
+            
+            // Early exit: if lengths differ, can't be anagrams
+            if (word.length() != words[i - 1].length()) {
+                result.add(word);
+                prevFreq = getFrequency(word);
+                continue;
+            }
+            
+            int[] currFreq = getFrequency(word);
+            
+            if (!Arrays.equals(currFreq, prevFreq)) {
+                result.add(word);
+                prevFreq = currFreq;
+            }
+        }
+        return result;
+    }
+    
+    private int[] getFrequency(String word) {
+        int[] freq = new int[26];
+        int len = word.length();
+        for (int i = 0; i < len; i++) {
+            freq[word.charAt(i) - 'a']++;
+        }
+        return freq;
+    }
+}
+
+```
+---
+
+### 🎯 Conclusion — Day 6  
+
+Day 6 was all about clarity and precision in handling string-based logic.
+It was a refreshing reminder that even simple problems can teach valuable lessons in clean code structure, iteration control, and efficient data comparison.
+
+One more day, one more lesson — consistency is the real magic. 🌟
+Can’t wait to take on Day 7! 🚀
 
 ---
