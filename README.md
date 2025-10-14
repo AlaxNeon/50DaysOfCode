@@ -8,6 +8,7 @@
 - [Day 4](#day-4)
 - [Day 5](#day-5)
 - [Day 6](#day-6)
+- [Day 7](#day-7)
 
 </details>
 </div>
@@ -897,5 +898,85 @@ It was a refreshing reminder that even simple problems can teach valuable lesson
 
 One more day, one more lesson — consistency is the real magic. 🌟
 Can’t wait to take on Day 7! 🚀
+
+---
+
+## Day 7
+# 🚀 50 Days of LeetCode — Day 7
+
+Welcome to **Day 7** of my #50DaysOfCode challenge!  
+Today’s challenge focused on **Array Traversal**, **Pattern Recognition**, and **Subarray Analysis** — a great exercise in understanding how to validate structured sequences efficiently.  
+
+---
+
+## 🧩 Problem — Adjacent Increasing Subarrays Detection I  
+**LeetCode 3349 | Easy**
+
+### 🔍 Problem Description  
+You are given an integer array `nums` of length `n` and an integer `k`.  
+Your task is to determine whether there exist **two adjacent subarrays** of length `k` such that both are **strictly increasing**.  
+
+Formally, check if there are two subarrays starting at indices `a` and `b` (where `b = a + k`) such that:  
+- Both `nums[a..a + k - 1]` and `nums[b..b + k - 1]` are strictly increasing.  
+
+Return **true** if such subarrays exist, and **false** otherwise.  
+
+---
+
+### 💭 Approach  
+
+1. **Sliding Window Traversal:**  
+   Iterate through the array while checking every window of size `2 * k` to find possible pairs of adjacent increasing subarrays.  
+
+2. **Helper Function for Validation:**  
+   Define a helper method `isIncreasing()` to verify if a given range of elements is strictly increasing.  
+
+3. **Efficient Comparison:**  
+   For each valid start index `i`, check if both subarrays `[i..i+k-1]` and `[i+k..i+2k-1]` meet the increasing condition.  
+
+4. **Early Exit:**  
+   As soon as one valid pair is found, return `true` immediately to optimize runtime.  
+
+This approach ensures clarity and efficiency with **O(n × k)** time complexity and **O(1)** space complexity.  
+
+---
+
+### 💻 Code
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasIncreasingSubarrays(List<Integer> nums, int k) {
+        int n = nums.size();
+
+        for (int i = 0; i + 2 * k <= n; i++) {
+            if (isIncreasing(nums, i, i + k - 1) &&
+                isIncreasing(nums, i + k, i + 2 * k - 1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isIncreasing(List<Integer> nums, int start, int end) {
+        for (int i = start; i < end; i++) {
+            if (nums.get(i) >= nums.get(i + 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 7  
+
+Day 7 was a strong exercise in logical reasoning and structured array validation.
+It emphasized breaking problems into smaller, reusable components — like the isIncreasing() helper — and understanding the balance between clarity and optimization.
+
+Every new problem builds better intuition, stronger debugging instincts, and deeper algorithmic thinking.
+On to the next challenge — Day 8, here we come! 🚀
 
 ---
