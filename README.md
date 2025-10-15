@@ -9,6 +9,7 @@
 - [Day 5](#day-5)
 - [Day 6](#day-6)
 - [Day 7](#day-7)
+- [Day 8](#day-8)
 
 </details>
 </div>
@@ -978,5 +979,88 @@ It emphasized breaking problems into smaller, reusable components — like the i
 
 Every new problem builds better intuition, stronger debugging instincts, and deeper algorithmic thinking.
 On to the next challenge — Day 8, here we come! 🚀
+
+---
+
+## Day 8
+# 🚀 50 Days of LeetCode — Day 8
+
+Welcome to **Day 8** of my #50DaysOfCode challenge!  
+Today’s focus was on **Array Analysis**, **Pattern Detection**, and **Subarray Optimization** — stepping up from Day 7 with a medium-level challenge that demanded analytical precision and clean logic.
+
+---
+
+## 🧩 Problem — Adjacent Increasing Subarrays Detection II  
+**LeetCode 3350 | Medium**
+
+### 🔍 Problem Description  
+You are given an integer array `nums` of length `n`.  
+Your task is to find the **maximum value of `k`** such that there exist **two adjacent subarrays** of length `k`, where both subarrays are **strictly increasing**.
+
+Formally, check if there exist subarrays starting at indices `a` and `b` (where `b = a + k`) such that:  
+- Both `nums[a..a + k - 1]` and `nums[b..b + k - 1]` are strictly increasing.  
+
+Return the **maximum possible value of `k`**.
+
+---
+
+### 💭 Approach  
+
+1. **Tracking Increasing Segments:**  
+   Iterate through the array and calculate the lengths of consecutive increasing subarrays.
+
+2. **Compare Adjacent Lengths:**  
+   For every point where the sequence breaks, compute the overlap of two adjacent increasing segments using `Math.min(prevLen, currLen)`.
+
+3. **Edge Handling:**  
+   The final check ensures the last subarray is also considered, updating the result accordingly.
+
+4. **Optimization Insight:**  
+   The approach cleverly combines pattern tracking and comparison within a single traversal — achieving **O(n)** time complexity with **O(1)** extra space.
+
+---
+
+### 💻 Code
+```java
+import java.util.*;
+
+class Solution {
+    public int maxIncreasingSubarrays(List<Integer> nums) {
+        int n = nums.size();
+        int ans = 0;
+        int prevLen = 0;  // Length of previous increasing subarray
+        int currLen = 1;  // Length of current increasing subarray
+        
+        for (int i = 1; i < n; i++) {
+            if (nums.get(i) > nums.get(i - 1)) {
+                currLen++;
+            } else {
+                // Check adjacent increasing subarrays
+                ans = Math.max(ans, Math.min(prevLen, currLen));
+                ans = Math.max(ans, currLen / 2);
+                
+                prevLen = currLen;
+                currLen = 1;
+            }
+        }
+        
+        // Handle the last increasing subarray
+        ans = Math.max(ans, Math.min(prevLen, currLen));
+        ans = Math.max(ans, currLen / 2);
+        
+        return ans;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 8  
+
+Day 8 took the previous problem to a deeper, more analytical level — focusing not just on detecting patterns, but on quantifying them efficiently.
+It was a fun challenge that strengthened my grasp on sequence logic, pattern overlap, and single-pass optimization.
+
+Each day adds a new layer of understanding — and today’s was about clarity through logic.
+Onward to Day 9! 🚀🔥
 
 ---
