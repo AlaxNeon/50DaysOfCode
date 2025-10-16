@@ -10,6 +10,7 @@
 - [Day 6](#day-6)
 - [Day 7](#day-7)
 - [Day 8](#day-8)
+- [Day 9](#day-9)
 
 </details>
 </div>
@@ -1062,5 +1063,89 @@ It was a fun challenge that strengthened my grasp on sequence logic, pattern ove
 
 Each day adds a new layer of understanding — and today’s was about clarity through logic.
 Onward to Day 9! 🚀🔥
+
+---
+
+## Day 9
+# 🚀 50 Days of LeetCode — Day 9
+
+Welcome to **Day 9** of my #50DaysOfCode challenge!  
+Today’s focus was on **Modular Arithmetic**, **Frequency Mapping**, and **Optimized Array Transformation** — tackling a medium-level problem that tested logic precision and mathematical reasoning. 🧮⚙️
+
+---
+
+## 🧩 Problem — Smallest Missing Non-negative Integer After Operations  
+**LeetCode 2598 | Medium**
+
+### 🔍 Problem Description  
+You are given a 0-indexed integer array `nums` and an integer `value`.
+
+In one operation, you can **add or subtract `value`** from any element in `nums`.  
+The goal is to find the **maximum possible MEX (minimum excluded number)** of the array after performing any number of operations.
+
+**MEX** of an array is the smallest non-negative integer not present in it.
+
+#### Example:
+**Input:**  
+`nums = [1, -10, 7, 13, 6, 8]`, `value = 5`  
+**Output:** `4`  
+
+**Explanation:**  
+By adding and subtracting `value` strategically, we can transform the array to make MEX = 4 — the maximum achievable.
+
+---
+
+### 💭 Approach  
+
+1. **Use Modular Arithmetic:**  
+   Each number can be transformed into a set of values differing by multiples of `value`.  
+   Hence, `nums[i] % value` determines its *group*.
+
+2. **Frequency Counting:**  
+   Create an array `freq[value]` to count how many numbers fall into each modulo class.
+
+3. **Determine MEX:**  
+   - The smallest MEX corresponds to the first missing count pattern.  
+   - For each `i`, MEX = `minFreq * value + minIdx`,  
+     where `minFreq` is the smallest frequency among remainders.
+
+This approach ensures **O(n)** time complexity and **O(value)** space — perfect for large constraints.
+
+---
+
+### 💻 Code
+```java
+class Solution {
+    public int findSmallestInteger(int[] nums, int value) {
+        int[] freq = new int[value];
+        
+        for (int i = 0, len = nums.length; i < len; i++) {
+            int x = nums[i];
+            int r = x % value;
+            freq[r < 0 ? r + value : r]++;
+        }
+        
+        int minFreq = freq[0];
+        int minIdx = 0;
+        
+        for (int i = 1; i < value; i++) {
+            int f = freq[i];
+            if (f < minFreq) {
+                minFreq = f;
+                minIdx = i;
+            }
+        }
+        return minFreq * value + minIdx;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 9  
+
+Day 9 pushed the boundaries of mathematical problem-solving — showing how modular arithmetic can simplify complex transformations elegantly.
+This challenge reinforced the importance of pattern grouping and frequency balancing to derive efficient results.
+
+Each day of this journey strengthens logic and boosts confidence — one MEX at a time! 💪
+On to Day 10, with even more excitement ahead! 🚀✨
 
 ---
