@@ -11,6 +11,7 @@
 - [Day 7](#day-7)
 - [Day 8](#day-8)
 - [Day 9](#day-9)
+- [Day 10](#day-10)
 
 </details>
 </div>
@@ -1147,5 +1148,161 @@ This challenge reinforced the importance of pattern grouping and frequency balan
 
 Each day of this journey strengthens logic and boosts confidence — one MEX at a time! 💪
 On to Day 10, with even more excitement ahead! 🚀✨
+
+---
+
+## Day 10
+# 🚀 50 Days of LeetCode — Day 10
+
+Welcome to **Day 10** of my #50DaysOfCode challenge!  
+Today’s focus was on **Bitmasking**, **String Manipulation**, and **Dynamic Partitioning Optimization** — tackling a hard-level problem that required clever state tracking and optimization. ⚙️💡
+
+---
+
+## 🧩 Problem — Maximize the Number of Partitions After Operations  
+**LeetCode 3003 | Hard**
+
+### 🔍 Problem Description  
+You are given a string `s` and an integer `k`.  
+
+First, you are allowed to **change at most one index** in `s` to another lowercase English letter.  
+
+After that, perform the following partitioning operation until `s` is empty:  
+
+- Choose the **longest prefix** of `s` containing at most `k` distinct characters.  
+- Delete the prefix and increase the partition count by 1.  
+- Continue until the string becomes empty.  
+
+Return the **maximum number of partitions** after optimally performing at most one change.  
+
+#### Example 1:
+**Input:** `s = "accca"`, `k = 2`  
+**Output:** `3`  
+
+**Explanation:** Change `s[2]` to `'b'` to get `"acbca"`.  
+Partition prefixes of at most 2 distinct characters: `"ac"`, `"bc"`, `"a"`.  
+Total partitions = 3.
+
+#### Example 2:
+**Input:** `s = "aabaab"`, `k = 3`  
+**Output:** `1`  
+
+**Explanation:** No matter which character you change, the whole string has at most 3 distinct characters.  
+The longest prefix = entire string. Total partitions = 1.
+
+---
+
+### 💭 Approach
+
+1. **Use Bitmasking for Tracking Characters:**  
+   Represent characters seen so far as bits in an integer for fast checking and updating.
+
+2. **Process from Right to Left:**  
+   Precompute `ansr[i]` — maximum partitions starting at index `i`.  
+
+3. **Dynamic Partitioning:**  
+   Iterate from left to right while keeping track of used characters.  
+   Split when `k` distinct characters are reached and update maximum partitions using previously computed suffix results.  
+
+4. **Edge Cases:**  
+   Handle cases where `k = 26` (all letters), and consider at most one character change for optimal partitioning.
+
+This approach ensures efficient computation even for strings of length up to 10⁴.
+
+---
+
+### 💻 Code
+```java
+public class Solution {
+    private static final int ALPHABET_SIZE = 'z' - 'a' + 1;
+
+    public int maxPartitionsAfterOperations(String s, int k) {
+        if (k == ALPHABET_SIZE) return 1;
+
+        int n = s.length();
+        int[] ansr = new int[n];
+        int[] usedr = new int[n];
+        int used = 0, cntUsed = 0, ans = 1;
+
+        for (int i = n - 1; i >= 0; --i) {
+            int ch = s.charAt(i) - 'a';
+            if ((used & (1 << ch)) == 0) {
+                if (cntUsed == k) {
+                    cntUsed = 0;
+                    used = 0;
+                    ans++;
+                }
+                used |= (1 << ch);
+                cntUsed++;
+            }
+            ansr[i] = ans;
+            usedr[i] = used;
+        }
+
+        int ansl = 0;
+        ans = ansr[0];
+        int l = 0;
+
+        while (l < n) {
+            used = 0;
+            cntUsed = 0;
+            int usedBeforeLast = 0;
+            int usedTwiceBeforeLast = 0;
+            int last = -1;
+            int r = l;
+
+            while (r < n) {
+                int ch = s.charAt(r) - 'a';
+                if ((used & (1 << ch)) == 0) {
+                    if (cntUsed == k) break;
+                    usedBeforeLast = used;
+                    last = r;
+                    used |= (1 << ch);
+                    cntUsed++;
+                } else if (cntUsed < k) {
+                    usedTwiceBeforeLast |= (1 << ch);
+                }
+                r++;
+            }
+
+            if (cntUsed == k) {
+                if (last - l > Integer.bitCount(usedBeforeLast)) {
+                    ans = Math.max(ans, ansl + 1 + ansr[last]);
+                }
+                if (last + 1 < r) {
+                    if (last + 2 >= n) {
+                        ans = Math.max(ans, ansl + 1 + 1);
+                    } else {
+                        if (Integer.bitCount(usedr[last + 2]) == k) {
+                            int canUse = ((1 << ALPHABET_SIZE) - 1) & ~used & ~usedr[last + 2];
+                            if (canUse > 0) {
+                                ans = Math.max(ans, ansl + 1 + 1 + ansr[last + 2]);
+                            } else {
+                                ans = Math.max(ans, ansl + 1 + ansr[last + 2]);
+                            }
+                            int l1 = s.charAt(last + 1) - 'a';
+                            if ((usedTwiceBeforeLast & (1 << l1)) == 0) {
+                                ans = Math.max(ans, ansl + 1 + ansr[last + 1]);
+                            }
+                        } else {
+                            ans = Math.max(ans, ansl + 1 + ansr[last + 2]);
+                        }
+                    }
+                }
+            }
+            l = r;
+            ansl++;
+        }
+        return ans;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 10  
+
+Day 10 was a challenging exercise in bitmasking, prefix/suffix optimization, and careful character tracking.
+It strengthened my skills in transforming a complex string manipulation problem into a manageable algorithm using efficient state representation.
+
+Every day builds deeper intuition and sharper problem-solving skills — onward to Day 11! 🚀✨
 
 ---
