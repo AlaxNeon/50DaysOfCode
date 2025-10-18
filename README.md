@@ -12,7 +12,7 @@
 - [Day 8](#day-8)
 - [Day 9](#day-9)
 - [Day 10](#day-10)
-- [Day 10](#day-11)
+- [Day 11](#day-11)
 
 </details>
 </div>
