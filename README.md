@@ -12,6 +12,7 @@
 - [Day 8](#day-8)
 - [Day 9](#day-9)
 - [Day 10](#day-10)
+- [Day 10](#day-11)
 
 </details>
 </div>
@@ -1304,5 +1305,99 @@ Day 10 was a challenging exercise in bitmasking, prefix/suffix optimization, and
 It strengthened my skills in transforming a complex string manipulation problem into a manageable algorithm using efficient state representation.
 
 Every day builds deeper intuition and sharper problem-solving skills — onward to Day 11! 🚀✨
+
+---
+## Day 11
+# 🚀 50 Days of LeetCode — Day 11
+
+Welcome to **Day 11** of my #50DaysOfCode challenge!  
+Today’s focus was on **Greedy Algorithms**, **Sorting Optimization**, and **Range Adjustment** — tackling a medium-level problem that balanced numerical precision with algorithmic strategy. ⚙️📊
+
+---
+
+## 🧩 Problem — Maximum Number of Distinct Elements After Operations  
+**LeetCode 3397 | Medium**
+
+### 🔍 Problem Description  
+You are given an integer array `nums` and an integer `k`.
+
+You are allowed to perform the following operation on each element **at most once**:
+
+➡️ Add an integer in the range `[-k, k]` to the element.
+
+Your goal is to return the **maximum possible number of distinct elements** in the array after performing the operations optimally.
+
+---
+
+#### Example 1:
+**Input:**  
+`nums = [1,2,2,3,3,4]`, `k = 2`  
+**Output:** `6`  
+
+**Explanation:**  
+By adjusting the first four elements as `[-1, 0, 1, 2, 3, 4]`,  
+we obtain six distinct numbers — the maximum achievable.
+
+---
+
+#### Example 2:
+**Input:**  
+`nums = [4,4,4,4]`, `k = 1`  
+**Output:** `3`  
+
+**Explanation:**  
+Adding `-1` to `nums[0]` and `+1` to `nums[1]` makes `nums = [3, 5, 4, 4]`,  
+resulting in three distinct values.
+
+---
+
+### 💭 Approach  
+
+1. **Sort the Array:**  
+   Sorting allows processing from smallest to largest, maintaining order for unique placement.
+
+2. **Greedy Distinct Placement:**  
+   For each element, try to shift it within its allowed range to the **lowest possible distinct value** that hasn’t been used yet.
+
+3. **Track Next Available Number:**  
+   Maintain a `next` pointer indicating the smallest unused number that can be assigned while staying within the `[-k, k]` range.
+
+4. **Count Distincts:**  
+   Increment the counter every time a new unique number is successfully assigned.
+
+This approach ensures **O(n log n)** time complexity due to sorting and **O(1)** extra space — optimal for large input arrays.
+
+---
+
+### 💻 Code
+```java
+import java.util.Arrays;
+
+public class Solution {
+    public int maxDistinctElements(int[] nums, int k) {
+        Arrays.sort(nums);
+        int next = nums[0] - k + 1;
+        int n = nums.length;
+        int ans = 1;
+        for (int i = 1; i < n; i++) {
+            if (nums[i] + k < next) {
+                continue;
+            }
+            next = Math.max(next, nums[i] - k);
+            ans++;
+            next++;
+        }
+        return ans;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 11  
+
+Day 11 sharpened my greedy problem-solving skills — showing how small adjustments and smart iteration can maximize distinctness and efficiency!
+Learning to balance constraints while pushing boundaries made this challenge both logical and rewarding. 💡🔥
+
+Each day continues to strengthen analytical reasoning and reinforces the joy of consistent problem-solving! 🚀✨
+Here’s to more optimization and insight ahead on Day 12! 💪👨‍💻
 
 ---
