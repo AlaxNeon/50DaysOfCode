@@ -13,6 +13,7 @@
 - [Day 9](#day-9)
 - [Day 10](#day-10)
 - [Day 11](#day-11)
+- [Day 12](#day-12)
 
 </details>
 </div>
@@ -1399,5 +1400,185 @@ Learning to balance constraints while pushing boundaries made this challenge bot
 
 Each day continues to strengthen analytical reasoning and reinforces the joy of consistent problem-solving! 🚀✨
 Here’s to more optimization and insight ahead on Day 12! 💪👨‍💻
+
+---
+## Day 12
+
+# 🚀 50 Days of LeetCode — Day 12
+
+Welcome to **Day 12** of my #50DaysOfCode challenge!
+Today’s challenge took me into the world of **string transformations**, **modular arithmetic**, and **cyclic operations** — blending math and pattern recognition to achieve lexicographical perfection. 🔄💡
+
+---
+
+## 🧩 Problem — Lexicographically Smallest String After Applying Operations
+
+**LeetCode 1625 | Medium**
+
+### 🔍 Problem Description
+
+You are given a numeric string `s` of even length and two integers `a` and `b`.
+You can perform the following two operations any number of times and in any order:
+
+1. **Add Operation:**
+   Add `a` to all digits at **odd indices** (`0-indexed`).
+   After `9`, digits cycle back to `0`.
+
+2. **Rotate Operation:**
+   Rotate the string to the right by `b` positions.
+
+Your goal is to find the **lexicographically smallest string** achievable through any sequence of these operations.
+
+---
+
+#### Example 1:
+
+**Input:**
+`s = "5525"`, `a = 9`, `b = 2`
+**Output:** `"2050"`
+
+**Explanation:**
+Applying a smart mix of rotations and additions leads to the smallest possible sequence:
+`"5525" → "2555" → "2454" → "2353" → "5323" → "2151" → "2050"`
+
+---
+
+#### Example 2:
+
+**Input:**
+`s = "74"`, `a = 5`, `b = 1`
+**Output:** `"24"`
+
+**Explanation:**
+Rotation and addition together create the minimal lexicographic sequence `"24"`.
+
+---
+
+### 💭 Approach
+
+1. **Rotation Cycle Detection:**
+   Since the string length is even, only certain rotations need checking — precisely every `gcd(b, n)` steps.
+
+2. **Precomputation for Additions:**
+   Precompute all 10 possible additions for each digit to avoid redundant calculations.
+
+3. **Explore All Combinations:**
+   For each rotation, test all possible odd-index (and even-index, if applicable) additions.
+
+4. **Lexicographic Comparison:**
+   Continuously compare generated strings and keep the smallest one.
+
+This systematic approach ensures that all possible transformations are explored efficiently while avoiding duplicates, leading to an optimized and elegant solution. ⚙️✨
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public String findLexSmallestString(String s, int a, int b) {
+        int n = s.length();
+        char[] sArr = s.toCharArray();
+        char[] result = sArr.clone();
+        char[] temp = new char[n];
+        
+        int gcd = gcd(b, n);
+        boolean canModifyEven = (gcd & 1) == 1;
+        
+        // Precompute addition results
+        int[][] addTable = new int[10][10];
+        for (int digit = 0; digit < 10; digit++) {
+            for (int ops = 0; ops < 10; ops++) {
+                addTable[digit][ops] = (digit + ops * a) % 10;
+            }
+        }
+        
+        // Try all rotation positions
+        for (int rot = 0; rot < n; rot += gcd) {
+            if (rot == 0) {
+                System.arraycopy(sArr, 0, temp, 0, n);
+            } else {
+                System.arraycopy(sArr, n - rot, temp, 0, rot);
+                System.arraycopy(sArr, 0, temp, rot, n - rot);
+            }
+            
+            // Try all odd index modifications
+            for (int oddOps = 0; oddOps < 10; oddOps++) {
+                if (canModifyEven) {
+                    // Try all even index modifications
+                    for (int evenOps = 0; evenOps < 10; evenOps++) {
+                        boolean isBetter = true;
+                        for (int i = 0; i < n; i++) {
+                            int val = (i & 1) == 1 
+                                ? addTable[temp[i] - '0'][oddOps]
+                                : addTable[temp[i] - '0'][evenOps];
+                            
+                            if (val < result[i] - '0') {
+                                break;
+                            } else if (val > result[i] - '0') {
+                                isBetter = false;
+                                break;
+                            }
+                        }
+                        
+                        if (isBetter) {
+                            for (int i = 0; i < n; i++) {
+                                int val = (i & 1) == 1 
+                                    ? addTable[temp[i] - '0'][oddOps]
+                                    : addTable[temp[i] - '0'][evenOps];
+                                result[i] = (char) (val + '0');
+                            }
+                        }
+                    }
+                } else {
+                    boolean isBetter = true;
+                    for (int i = 0; i < n; i++) {
+                        int val = (i & 1) == 1 
+                            ? addTable[temp[i] - '0'][oddOps]
+                            : temp[i] - '0';
+                        
+                        if (val < result[i] - '0') {
+                            break;
+                        } else if (val > result[i] - '0') {
+                            isBetter = false;
+                            break;
+                        }
+                    }
+                    
+                    if (isBetter) {
+                        for (int i = 0; i < n; i++) {
+                            int val = (i & 1) == 1 
+                                ? addTable[temp[i] - '0'][oddOps]
+                                : temp[i] - '0';
+                            result[i] = (char) (val + '0');
+                        }
+                    }
+                }
+            }
+        }
+        
+        return new String(result);
+    }
+    
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int t = b;
+            b = a % b;
+            a = t;
+        }
+        return a;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 12
+
+Day 12 was a real **brain-twister** — combining rotation logic, modular arithmetic, and lexicographical ordering into one compact challenge! 🧠⚡
+This problem reinforced how **pattern observation** and **mathematical symmetry** can drastically simplify complex problems.
+
+Every rotation, every addition, and every comparison reminded me how deep algorithmic problem-solving truly goes. 💪
+On to Day 13 — with even more logic, creativity, and code! 🚀👨‍💻
 
 ---
