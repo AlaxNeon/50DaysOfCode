@@ -14,6 +14,7 @@
 - [Day 10](#day-10)
 - [Day 11](#day-11)
 - [Day 12](#day-12)
+- [Day 13](#day-13)
 
 </details>
 </div>
@@ -1580,5 +1581,126 @@ This problem reinforced how **pattern observation** and **mathematical symmetry*
 
 Every rotation, every addition, and every comparison reminded me how deep algorithmic problem-solving truly goes. 💪
 On to Day 13 — with even more logic, creativity, and code! 🚀👨‍💻
+
+---
+
+## Day 13
+
+# 🚀 50 Days of LeetCode — Day 13
+
+Welcome to **Day 13** of my #50DaysOfCode challenge!
+Today’s problem may seem simple at first glance — but it’s a classic reminder that **clarity of logic** and **attention to detail** are key to solving even the most basic problems efficiently. ⚙️✨
+
+---
+
+## 🧩 Problem — Final Value of Variable After Performing Operations
+
+**LeetCode 2011 | Easy**
+
+### 🔍 Problem Description
+
+There is a programming language with only four operations and a single variable **X**, initially equal to `0`:
+
+* `++X` and `X++` increment the value of `X` by `1`.
+* `--X` and `X--` decrement the value of `X` by `1`.
+
+You are given an array of strings `operations`, each representing one of these operations.
+Your task is to return the **final value** of `X` after performing all the operations in order.
+
+---
+
+#### Example 1:
+
+**Input:**
+`operations = ["--X","X++","X++"]`
+**Output:**
+`1`
+
+**Explanation:**
+
+```
+Initially, X = 0  
+--X → X = -1  
+X++ → X = 0  
+X++ → X = 1  
+```
+
+---
+
+#### Example 2:
+
+**Input:**
+`operations = ["++X","++X","X++"]`
+**Output:**
+`3`
+
+**Explanation:**
+
+```
+Initially, X = 0  
+++X → X = 1  
+++X → X = 2  
+X++ → X = 3  
+```
+
+---
+
+#### Example 3:
+
+**Input:**
+`operations = ["X++","++X","--X","X--"]`
+**Output:**
+`0`
+
+**Explanation:**
+
+```
+Initially, X = 0  
+X++ → X = 1  
+++X → X = 2  
+--X → X = 1  
+X-- → X = 0  
+```
+
+---
+
+### 💭 Approach
+
+1. Initialize a variable `X` to `0`.
+2. Loop through each operation in the array.
+3. If the operation contains `'+'`, increment `X`. Otherwise, decrement `X`.
+4. Return the final value of `X`.
+
+This approach is **O(n)** in time complexity and requires only **O(1)** space — clean, simple, and efficient. ⚡
+
+---
+
+### 💻 Code
+
+```java
+class Solution {
+    public int finalValueAfterOperations(String[] operations) {
+        int X = 0;
+        for (String op : operations) {
+            // If the operation contains '+', increment; else decrement
+            if (op.charAt(1) == '+') {
+                X++;
+            } else {
+                X--;
+            }
+        }
+        return X;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 13
+
+Day 13 brought me back to the basics — reinforcing how even **simple problems** sharpen our focus on **precision, pattern recognition, and clean code structure**. 🧠💡
+This challenge was a reminder that not all problems need complex logic — sometimes, it’s about implementing the **right logic** simply and effectively.
+
+On to **Day 14** — with more logic, learning, and leaps of progress! 🚀👨‍💻
 
 ---
