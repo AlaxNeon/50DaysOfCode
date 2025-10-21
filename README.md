@@ -15,6 +15,7 @@
 - [Day 11](#day-11)
 - [Day 12](#day-12)
 - [Day 13](#day-13)
+- [Day 14](#day-14)
 
 </details>
 </div>
@@ -1702,5 +1703,143 @@ Day 13 brought me back to the basics — reinforcing how even **simple problems*
 This challenge was a reminder that not all problems need complex logic — sometimes, it’s about implementing the **right logic** simply and effectively.
 
 On to **Day 14** — with more logic, learning, and leaps of progress! 🚀👨‍💻
+
+---
+
+## Day 14
+
+# 🚀 50 Days of LeetCode — Day 14
+
+Welcome to **Day 14** of my #50DaysOfCode challenge!
+Today’s problem took me deeper into the realm of **range updates**, **frequency optimization**, and **difference arrays** — an elegant mix of mathematics and algorithmic precision. ⚙️📊
+
+---
+
+## 🧩 Problem — Maximum Frequency of an Element After Performing Operations I
+
+**LeetCode 3346 | Medium**
+
+### 🔍 Problem Description
+
+You are given an integer array `nums` and two integers `k` and `numOperations`.
+
+You must perform an operation `numOperations` times on `nums`, where in each operation you:
+
+1. Select an index `i` that has **not been selected** in any previous operations.
+2. Add an integer in the range **[-k, k]** to `nums[i]`.
+
+Your goal is to **maximize the frequency** of any element in `nums` after performing all the operations.
+
+---
+
+#### Example 1:
+
+**Input:**
+`nums = [1, 4, 5]`, `k = 1`, `numOperations = 2`
+**Output:**
+`2`
+
+**Explanation:**
+We can achieve a maximum frequency of two by:
+
+```
+Add 0 to nums[1] → [1, 4, 5]
+Add -1 to nums[2] → [1, 4, 4]
+```
+
+Now, the number 4 appears twice.
+
+---
+
+#### Example 2:
+
+**Input:**
+`nums = [5, 11, 20, 20]`, `k = 5`, `numOperations = 1`
+**Output:**
+`2`
+
+**Explanation:**
+We can add 0 to nums[1] → [5, 11, 20, 20]
+Here, 20 already appears twice, so the maximum frequency is 2.
+
+---
+
+### 💭 Approach
+
+1. **Range Marking via Difference Array:**
+   For each number `v`, mark the range `[v - k, v + k]` in a difference array to represent all reachable values.
+
+2. **Prefix Sum to Build Reach Array:**
+   The prefix sum of the difference array gives the count of how many numbers can be transformed into each target value.
+
+3. **Combine with Existing Frequency:**
+   For each target `T`, compute the total frequency as the minimum of reachable numbers and possible operations.
+
+4. **Maximize Frequency:**
+   The maximum across all targets gives the final answer.
+
+This approach ensures **O(n + max(nums))** efficiency, which is scalable for large input sizes. ⚡
+
+---
+
+### 💻 Code
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        int maxVal = 0;
+        for (int v : nums) if (v > maxVal) maxVal = v;
+        int limit = maxVal + k;
+
+        int size = limit + 1;
+        int[] diff = new int[size + 1];
+        int[] cnt = new int[size];
+
+        for (int v : nums) {
+            int l = v - k;
+            if (l < 0) l = 0;
+            int r = v + k;
+            if (r > limit) r = limit;
+            diff[l] += 1;
+            if (r + 1 <= limit) diff[r + 1] -= 1;
+
+            // Count exact occurrences (if within size)
+            if (v >= 0 && v <= limit) cnt[v] += 1;
+        }
+
+        // Prefix sum to get reach[T]
+        int[] reach = new int[size];
+        int cur = 0;
+        for (int i = 0; i < size; i++) {
+            cur += diff[i];
+            reach[i] = cur;
+        }
+
+        // Evaluate answer
+        int ans = 0;
+        for (int T = 0; T < size; T++) {
+            int possible = Math.min(reach[T], cnt[T] + numOperations);
+            if (possible > ans) ans = possible;
+        }
+
+        return ans;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 14
+
+Day 14 was all about mastering **range logic** and **frequency balancing** — learning how minor numerical shifts can create significant optimization outcomes. 🔄✨
+This problem reinforced the value of **prefix sums**, **difference arrays**, and a **strategic mindset** in algorithm design.
+
+Every challenge continues to sharpen my ability to think in patterns, reason in ranges, and implement efficiently. 💪💻
+On to **Day 15**, with even more passion for clean code and clever solutions! 🚀👨‍💻
 
 ---
