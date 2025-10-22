@@ -16,6 +16,7 @@
 - [Day 12](#day-12)
 - [Day 13](#day-13)
 - [Day 14](#day-14)
+- [Day 15](#day-15)
 
 </details>
 </div>
@@ -1841,5 +1842,136 @@ This problem reinforced the value of **prefix sums**, **difference arrays**, and
 
 Every challenge continues to sharpen my ability to think in patterns, reason in ranges, and implement efficiently. 💪💻
 On to **Day 15**, with even more passion for clean code and clever solutions! 🚀👨‍💻
+
+---
+
+## Day 15
+
+# 🚀 50 Days of LeetCode — Day 15
+
+Welcome to **Day 15** of my #50DaysOfCode challenge!
+Today’s problem took me deeper into **advanced range reasoning**, **window balancing**, and **frequency maximization with constraints** — truly a test of both logic and precision! ⚙️🔥
+
+---
+
+## 🧩 Problem — Maximum Frequency of an Element After Performing Operations II
+
+**LeetCode 3347 | Hard**
+
+### 🔍 Problem Description
+
+You are given an integer array `nums` and two integers `k` and `numOperations`.
+
+You must perform an operation `numOperations` times on `nums`, where in each operation you:
+
+1. Select an index `i` that has **not been selected** in any previous operations.
+2. Add an integer in the range **[-k, k]** to `nums[i]`.
+
+Your goal is to **maximize the frequency** of any element in `nums` after performing all the operations.
+
+---
+
+#### Example 1:
+
+**Input:**
+`nums = [1, 4, 5]`, `k = 1`, `numOperations = 2`
+
+**Output:**
+`2`
+
+**Explanation:**
+We can achieve a maximum frequency of two by:
+
+```
+Adding 0 to nums[1] → [1, 4, 5]
+Adding -1 to nums[2] → [1, 4, 4]
+```
+
+Now, the number 4 appears twice.
+
+---
+
+#### Example 2:
+
+**Input:**
+`nums = [5, 11, 20, 20]`, `k = 5`, `numOperations = 1`
+
+**Output:**
+`2`
+
+**Explanation:**
+Adding 0 to nums[1] keeps `[5, 11, 20, 20]`, and since 20 already appears twice, the maximum frequency remains 2.
+
+---
+
+### 💭 Approach
+
+1. **Sort the Array:**
+   Sorting helps to efficiently compare ranges and detect overlapping intervals.
+
+2. **Two-Pointer Window Technique:**
+   Expand and contract a sliding window to maintain valid value ranges (where `nums[r] - nums[l] <= 2 * k`).
+
+3. **Dynamic Frequency Calculation:**
+   Use two nested sweeps:
+
+   * The first determines potential overlapping ranges.
+   * The second adjusts boundaries considering the allowed operations (`numOperations`).
+
+4. **Optimization Insight:**
+   The combination of sorting and window expansion ensures the solution works in **O(n log n)**, which is optimal for constraints up to `10^5`. ⚡
+
+---
+
+### 💻 Code
+
+```java
+import java.util.Arrays;
+
+public class Solution {
+    public int maxFrequency(int[] nums, int k, int numOperations) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int l = 0;
+        int r = 0;
+        int i = 0;
+        int j = 0;
+        int res = 0;
+        while (i < n) {
+            while (j < n && nums[j] == nums[i]) {
+                j++;
+            }
+            while (l < i && nums[i] - nums[l] > k) {
+                l++;
+            }
+            while (r < n && nums[r] - nums[i] <= k) {
+                r++;
+            }
+            res = Math.max(res, Math.min(i - l + r - j, numOperations) + j - i);
+            i = j;
+        }
+        i = 0;
+        j = 0;
+        while (i < n && j < n) {
+            while (j < n && j - i < numOperations && nums[j] - nums[i] <= k * 2) {
+                j++;
+            }
+            res = Math.max(res, j - i);
+            i++;
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 15
+
+Day 15 challenged my understanding of **range overlaps**, **sliding windows**, and **operation constraints** — blending intuition with algorithmic finesse. ⚙️💡
+This problem emphasized that even the hardest challenges can be cracked with structure, logic, and consistent focus.
+
+Each new day in this challenge sharpens not just my coding ability but also my problem-analysis mindset — a reminder that mastery is built one logic block at a time. 💻💪
+On to **Day 16**, where the journey continues toward stronger problem-solving and sharper algorithms! 🚀👨‍💻
 
 ---
