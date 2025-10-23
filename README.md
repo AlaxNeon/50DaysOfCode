@@ -17,6 +17,7 @@
 - [Day 13](#day-13)
 - [Day 14](#day-14)
 - [Day 15](#day-15)
+- [Day 16](#day-16)
 
 </details>
 </div>
@@ -1973,5 +1974,114 @@ This problem emphasized that even the hardest challenges can be cracked with str
 
 Each new day in this challenge sharpens not just my coding ability but also my problem-analysis mindset — a reminder that mastery is built one logic block at a time. 💻💪
 On to **Day 16**, where the journey continues toward stronger problem-solving and sharper algorithms! 🚀👨‍💻
+
+---
+
+## Day 16
+
+# 🚀 50 Days of LeetCode — Day 16
+
+Welcome to **Day 16** of my #50DaysOfCode challenge!  
+Today’s problem took me on a fascinating journey through **iterative digit transformation**, **modular arithmetic**, and **string-based logic reconstruction**. 🔢⚙️  
+Even simple numbers can hide deep algorithmic beauty when repetitive operations reveal elegant symmetry!
+
+---
+
+## 🧩 Problem — Check If Digits Are Equal in String After Operations I
+
+**LeetCode 3461 | Easy**
+
+### 🔍 Problem Description
+
+You are given a string `s` consisting of digits.  
+Perform the following operation repeatedly until the string has exactly **two digits**:
+
+1. For each pair of consecutive digits in `s`, calculate a new digit as the **sum of the two digits modulo 10**.
+2. Replace `s` with the sequence of these new digits.
+
+Return **true** if the final two digits are the same; otherwise, return **false**.
+
+---
+
+#### Example 1:
+
+**Input:**  
+`s = "3902"`
+
+**Output:**  
+`true`
+
+**Explanation:**
+
+```
+Initial: "3902"
+1st Operation → (3+9)%10=2, (9+0)%10=9, (0+2)%10=2 → "292"
+2nd Operation → (2+9)%10=1, (9+2)%10=1 → "11"
+Final two digits are equal → true ✅
+```
+
+---
+
+#### Example 2:
+
+**Input:**  
+`s = "34789"`
+
+**Output:**  
+`false`
+
+**Explanation:**
+
+```
+Initial: "34789"
+1st Operation → "7157"
+2nd Operation → "862"
+3rd Operation → "48"
+Final digits differ → false ❌
+```
+
+---
+
+### 💭 Approach
+
+1. **Convert the string to integers** for easy arithmetic manipulation.
+2. **Iteratively transform** the array until only two digits remain.
+3. In each step, compute `(arr[i] + arr[i+1]) % 10` and shift the results.
+4. Finally, compare the remaining two digits — return `true` if they are equal.
+
+This approach has **O(n²)** time complexity but is perfectly fine for input size ≤ 100.
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public boolean hasSameDigits(String s) {
+        int n = s.length();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = s.charAt(i) - '0';
+        
+        while (n > 2) {
+            for (int i = 0; i < n - 1; i++) {
+                arr[i] = (arr[i] + arr[i + 1]) % 10;
+            }
+            n--;
+        }
+        
+        return arr[0] == arr[1];
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 16
+
+Day 16 was a reminder that **simple logic**, when repeated cleverly, can create **complex transformations**!  
+Through modular addition and iterative compression, I explored how data patterns evolve step by step — a concept applicable to number theory, dynamic updates, and even signal analysis. ⚡💡  
+
+Every problem sharpens the balance between **analytical precision** and **creative exploration** — that’s the real beauty of problem solving! 💻💪  
+Here’s to more math, more logic, and the unstoppable momentum of learning! 🚀👨‍💻  
 
 ---
