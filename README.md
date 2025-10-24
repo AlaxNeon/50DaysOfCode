@@ -18,6 +18,7 @@
 - [Day 14](#day-14)
 - [Day 15](#day-15)
 - [Day 16](#day-16)
+- [Day 17](#day-17)
 
 </details>
 </div>
@@ -2083,5 +2084,137 @@ Through modular addition and iterative compression, I explored how data patterns
 
 Every problem sharpens the balance between **analytical precision** and **creative exploration** — that’s the real beauty of problem solving! 💻💪  
 Here’s to more math, more logic, and the unstoppable momentum of learning! 🚀👨‍💻  
+
+---
+
+## Day 17
+
+# 🚀 50 Days of LeetCode — Day 17
+
+Welcome to **Day 17** of my #50DaysOfCode challenge!  
+Today’s problem took me on an intriguing dive into **digit frequency logic**, **precomputation**, and **binary search optimization** — a smart balance between math-based reasoning and algorithmic precision. 🔢⚙️  
+
+---
+
+## 🧩 Problem — Next Greater Numerically Balanced Number
+
+**LeetCode 2048 | Medium**
+
+### 🔍 Problem Description
+
+An integer `x` is **numerically balanced** if, for every digit `d` in the number `x`, there are exactly `d` occurrences of that digit in `x`.
+
+Given an integer `n`, return the **smallest numerically balanced number** that is **strictly greater than n**.
+
+---
+
+#### Example 1:
+
+**Input:**  
+`n = 1`
+
+**Output:**  
+`22`
+
+**Explanation:**  
+`22` is numerically balanced since the digit `2` occurs **2 times**.  
+It is also the smallest numerically balanced number strictly greater than `1`.
+
+---
+
+#### Example 2:
+
+**Input:**  
+`n = 1000`
+
+**Output:**  
+`1333`
+
+**Explanation:**  
+`1333` is numerically balanced since:  
+- The digit `1` occurs once  
+- The digit `3` occurs three times  
+Hence, `1333` is the smallest numerically balanced number strictly greater than `1000`.
+
+---
+
+#### Example 3:
+
+**Input:**  
+`n = 3000`
+
+**Output:**  
+`3133`
+
+**Explanation:**  
+`3133` is numerically balanced since:  
+- The digit `1` occurs once  
+- The digit `3` occurs three times  
+And it is the smallest number greater than `3000` that meets this property. ✅
+
+---
+
+### 💭 Approach
+
+1. **Understanding Numerically Balanced Numbers:**  
+   Each valid number follows the property where digit `d` appears exactly `d` times (e.g., `22`, `1333`, `3133`, etc.).  
+
+2. **Precomputation:**  
+   Since the possible range is limited (up to 10⁶), all numerically balanced numbers can be **precomputed** once and stored in an array.
+
+3. **Binary Search:**  
+   Use binary search to quickly find the **next greater** numerically balanced number after `n`.
+
+4. **Efficiency:**  
+   - Precomputation ensures constant lookup time for queries.  
+   - Binary search runs in **O(log N)** over a small precomputed set.  
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    // Precomputed all numerically balanced numbers up to 10^7
+    private static final int[] BEAUTIFUL = {
+        1, 22, 122, 212, 221, 333, 1333, 3133, 3313, 3331,
+        4444, 14444, 22333, 23233, 23323, 23332, 32233, 32323,
+        32332, 33223, 33232, 33322, 41444, 44144, 44414, 44441,
+        55555, 122333, 123233, 123323, 123332, 132233, 132323,
+        132332, 133223, 133232, 133322, 155555, 212333, 213233,
+        213323, 213332, 221333, 223133, 223313, 223331, 224444,
+        231233, 231323, 231332, 232133, 232313, 232331, 233123,
+        233132, 233213, 233231, 233312, 233321, 242444, 244244,
+        244424, 244442, 312233, 312323, 312332, 313223, 313232,
+        313322, 321233, 321323, 321332, 322133, 322313, 322331,
+        323123, 323132, 323213, 323231, 323312, 323321, 331223,
+        331232, 331322, 332123, 332132, 332213, 332231, 332312,
+        332321, 333122, 333212, 333221, 422444, 424244, 424424,
+        424442, 442244, 442424, 442442, 444224, 444242, 444422,
+        515555, 551555, 555155, 555515, 555551, 666666, 1224444
+    };
+    
+    public int nextBeautifulNumber(int n) {
+        int lo = 0, hi = BEAUTIFUL.length - 1;
+        while (lo <= hi) {
+            int mid = (lo + hi) >>> 1;
+            if (BEAUTIFUL[mid] <= n) {
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        return lo < BEAUTIFUL.length ? BEAUTIFUL[lo] : -1;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 17
+
+Day 17 reminded me how precomputation and optimization can transform a seemingly brute-force problem into an elegant, fast, and scalable solution. ⚙️💡
+The balance between mathematical properties and algorithmic efficiency showcased how pattern recognition often leads to powerful shortcuts in coding!
+
+With each day, this challenge strengthens not only my problem-solving mindset but also my appreciation for the art of building smarter algorithms. 💻🔥
+On to Day 18, where logic meets creativity again! 🚀👨‍💻
 
 ---
