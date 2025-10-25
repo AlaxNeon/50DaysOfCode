@@ -19,6 +19,7 @@
 - [Day 15](#day-15)
 - [Day 16](#day-16)
 - [Day 17](#day-17)
+- [Day 18](#day-18)
 
 </details>
 </div>
@@ -2216,5 +2217,123 @@ The balance between mathematical properties and algorithmic efficiency showcased
 
 With each day, this challenge strengthens not only my problem-solving mindset but also my appreciation for the art of building smarter algorithms. 💻🔥
 On to Day 18, where logic meets creativity again! 🚀👨‍💻
+
+---
+
+## Day 18
+
+# 🚀 50 Days of LeetCode — Day 18
+
+Welcome to **Day 18** of my #50DaysOfCode challenge!
+Today’s problem revolved around **pattern recognition**, **arithmetic progression**, and **smart week-based computation** — proving that even simple financial logic can have elegant mathematical underpinnings! 💰📅
+
+---
+
+## 🧩 Problem — Calculate Money in Leetcode Bank
+
+**LeetCode 1716 | Easy**
+
+### 🔍 Problem Description
+
+Hercy wants to save money for his first car. He deposits money into the Leetcode bank following this pattern:
+
+* On **Monday** (the first day), he deposits **$1**.
+* Each subsequent day of the week, he deposits **$1 more** than the previous day.
+* On the next **Monday**, he deposits **$1 more than the previous Monday**, and the pattern continues.
+
+Given `n`, return the **total amount of money** in the bank after the `n`th day.
+
+---
+
+#### Example 1:
+
+**Input:**
+`n = 4`
+
+**Output:**
+`10`
+
+**Explanation:**
+After the 4th day:
+`1 + 2 + 3 + 4 = 10`
+
+---
+
+#### Example 2:
+
+**Input:**
+`n = 10`
+
+**Output:**
+`37`
+
+**Explanation:**
+After 10 days:
+`(1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37`
+
+---
+
+#### Example 3:
+
+**Input:**
+`n = 20`
+
+**Output:**
+`96`
+
+**Explanation:**
+After 20 days:
+`(1 + 2 + 3 + 4 + 5 + 6 + 7)` +
+`(2 + 3 + 4 + 5 + 6 + 7 + 8)` +
+`(3 + 4 + 5 + 6 + 7 + 8)` = `96` ✅
+
+---
+
+### 💭 Approach
+
+1. **Identify weekly cycles:**
+   Every week has 7 days, with deposits increasing linearly.
+
+2. **Compute full weeks:**
+   For each complete week, sum up all deposits using arithmetic series formula and adjust for increasing Monday starts.
+
+3. **Handle remaining days:**
+   For leftover days (less than a week), continue the pattern starting from the next Monday’s base value.
+
+4. **Formula application:**
+
+   * Sum for full weeks = `fullWeeks * 28 + 7 * fullWeeks * (fullWeeks - 1) / 2`
+   * Sum for remaining days = `remainingDays * (fullWeeks + 1) + remainingDays * (remainingDays - 1) / 2`
+
+5. **Final total:**
+   Add both to get the complete savings.
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int totalMoney(int n) {
+        int fullWeeks = n / 7;
+        int remainingDays = n % 7;
+        int fullWeeksTotal = fullWeeks * 28 + 7 * fullWeeks * (fullWeeks - 1) / 2;
+        int remainingTotal = remainingDays * (fullWeeks + 1) + remainingDays * (remainingDays - 1) / 2;
+        
+        return fullWeeksTotal + remainingTotal;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 18
+
+Day 18 was a perfect example of how **mathematical reasoning** can simplify iterative logic into a clean, constant-time formula! ✨
+By breaking the problem into **weeks** and **remainders**, I learned how structured patterns can be expressed through elegant equations.
+
+This problem reminded me that understanding the **underlying sequence** often unlocks the simplest — yet most powerful — solution. 💻📊
+
+Here’s to another day of learning, logic, and levelling up! 🚀👨‍💻
 
 ---
