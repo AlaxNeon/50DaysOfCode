@@ -20,6 +20,7 @@
 - [Day 16](#day-16)
 - [Day 17](#day-17)
 - [Day 18](#day-18)
+- [Day 19](#day-19)
 
 </details>
 </div>
@@ -2335,5 +2336,137 @@ By breaking the problem into **weeks** and **remainders**, I learned how structu
 This problem reminded me that understanding the **underlying sequence** often unlocks the simplest — yet most powerful — solution. 💻📊
 
 Here’s to another day of learning, logic, and levelling up! 🚀👨‍💻
+
+---
+
+## Day 19
+
+# 🚀 50 Days of LeetCode — Day 19
+
+Welcome to **Day 19** of my #50DaysOfCode challenge!
+Today's problem focused on **object-oriented design**, **transaction validation**, and **state management** — demonstrating how to build a robust banking system with proper account handling! 💰🏦
+
+---
+
+## 🧩 Problem — Simple Bank System
+
+**LeetCode 2043 | Medium**
+
+### 🔍 Problem Description
+
+Design a banking system that automates transactions (transfer, deposit, withdraw) for `n` accounts numbered from **1 to n**. Transactions are valid only if account numbers are within range and sufficient balance exists for withdrawals/transfers.
+
+---
+
+#### Example 1:
+
+**Input:**
+```
+["Bank", "withdraw", "transfer", "deposit", "transfer", "withdraw"]
+[[[10, 100, 20, 50, 30]], [3, 10], [5, 1, 20], [5, 20], [3, 4, 15], [10, 50]]
+```
+
+**Output:**
+```
+[null, true, true, true, false, false]
+```
+
+**Explanation:**
+```java
+Bank bank = new Bank([10, 100, 20, 50, 30]);
+bank.withdraw(3, 10);    // return true, account 3 has $20, so valid to withdraw $10.
+                         // Account 3 now has $20 - $10 = $10.
+bank.transfer(5, 1, 20); // return true, account 5 has $30, so valid to transfer $20.
+                         // Account 5 has $30 - $20 = $10, account 1 has $10 + $20 = $30.
+bank.deposit(5, 20);     // return true, valid to deposit $20 to account 5.
+                         // Account 5 now has $10 + $20 = $30.
+bank.transfer(3, 4, 15); // return false, account 3 has $10, invalid to transfer $15.
+bank.withdraw(10, 50);   // return false, account 10 does not exist.
+```
+
+---
+
+### 💭 Approach
+
+1. **Account Indexing:**
+   Since accounts are numbered 1 to n but the array is 0-indexed, convert account numbers by subtracting 1.
+
+2. **Validation Strategy:**
+   Before any operation, validate:
+   * Account numbers are within valid range (0 to accounts.length - 1)
+   * For withdrawals/transfers, ensure sufficient balance exists
+
+3. **Optimization Techniques:**
+   * **Inline validation** — Remove helper method overhead by directly checking conditions
+   * **Reduce array accesses** — Calculate index once and reuse
+   * **Early termination** — Check bounds before checking balance to fail fast
+   * **Simplified conditionals** — Use straightforward boolean logic
+
+4. **Thread Safety (Optional):**
+   For concurrent access, use `synchronized` methods or lock-free structures like `AtomicLongArray`
+
+---
+
+### 💻 Code
+
+```java
+public class Bank {
+    private final long[] accounts;
+
+    public Bank(long[] balance) {
+        accounts = balance;
+    }
+
+    public synchronized boolean transfer(int account1, int account2, long money) {
+        int idx1 = account1 - 1;
+        int idx2 = account2 - 1;
+        
+        if (idx1 >= accounts.length || idx2 >= accounts.length || 
+            idx1 < 0 || idx2 < 0 || accounts[idx1] < money) {
+            return false;
+        }
+        
+        accounts[idx1] -= money;
+        accounts[idx2] += money;
+        return true;
+    }
+
+    public synchronized boolean deposit(int account, long money) {
+        int idx = account - 1;
+        
+        if (idx >= accounts.length || idx < 0) {
+            return false;
+        }
+        
+        accounts[idx] += money;
+        return true;
+    }
+
+    public synchronized boolean withdraw(int account, long money) {
+        int idx = account - 1;
+        
+        if (idx >= accounts.length || idx < 0 || accounts[idx] < money) {
+            return false;
+        }
+        
+        accounts[idx] -= money;
+        return true;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 19
+
+Day 19 was an excellent exercise in **system design** and **optimization**! 🏗️
+By focusing on **clean validation**, **efficient indexing**, and **thread-safe operations**, I learned how to build a production-ready banking system that handles transactions reliably.
+
+This problem reinforced the importance of:
+* **Index management** when converting between user-facing and internal representations
+* **Validation order** to optimize for common failure cases
+* **Code clarity** without sacrificing performance
+
+Here's to building robust, real-world systems one line at a time! 🚀💻
 
 ---
