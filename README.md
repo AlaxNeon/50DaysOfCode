@@ -21,6 +21,7 @@
 - [Day 17](#day-17)
 - [Day 18](#day-18)
 - [Day 19](#day-19)
+- [Day 20](#day-20)
 
 </details>
 </div>
@@ -2468,5 +2469,89 @@ This problem reinforced the importance of:
 * **Code clarity** without sacrificing performance
 
 Here's to building robust, real-world systems one line at a time! 🚀💻
+
+---
+
+## Day 20
+
+# 🚀 50 Days of LeetCode — Day 20
+
+Welcome to **Day 20** of my #50DaysOfCode challenge!  
+Today’s problem focused on **matrix traversal**, **logical reasoning**, and **count-based computation** — showing how structured counting can simplify even 2D logic problems! 🏦💡
+
+---
+
+## 🧩 Problem — Number of Laser Beams in a Bank
+
+**LeetCode 2125 | Medium**
+
+### 🔍 Problem Description
+
+You are given a `0-indexed` binary string array `bank` representing a bank’s floor plan, modeled as an **m × n matrix**.
+
+Each row in `bank` represents devices (`'1'`) and empty spaces (`'0'`).  
+A **laser beam** exists between two devices if:
+
+1. They are on **different rows** (`r₁` < `r₂`), and  
+2. Every row between them contains **no devices**.
+
+Your task: return the **total number of laser beams** present in the bank.
+
+---
+
+### 💭 Approach
+
+1. **Count active devices per row:**  
+   For each row, count how many `'1'`s appear.
+
+2. **Skip empty rows:**  
+   Only rows with at least one device can form beams.
+
+3. **Multiply adjacent non-empty rows:**  
+   Each pair contributes `previous_count × current_count` beams.
+
+4. **Iterate efficiently:**  
+   Keep track of the previous non-empty row count and update beams in a single pass.
+
+🧠 **Complexity:**  
+Time = O(m × n)  
+Space = O(1)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int numberOfBeams(String[] bank) {
+        int beams = 0;
+        int prevCount = 0;
+        
+        for (String row : bank) {
+            int currentCount = 0;
+            int len = row.length();
+            for (int i = 0; i < len; i++) {
+                currentCount += row.charAt(i) & 1;
+            }
+            
+            if (currentCount > 0) {
+                beams += prevCount * currentCount;
+                prevCount = currentCount;
+            }
+        }
+        
+        return beams;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 20
+
+Day 20 reinforced the power of pattern simplification — transforming a grid-based challenge into simple arithmetic logic.
+This problem was a great exercise in recognizing relationships between consecutive rows and using incremental computation to achieve efficiency.
+
+Each challenge brings me closer to mastering data pattern intuition and logical design thinking! 🚀💻
 
 ---
