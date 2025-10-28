@@ -22,6 +22,7 @@
 - [Day 18](#day-18)
 - [Day 19](#day-19)
 - [Day 20](#day-20)
+- [Day 21](#day-21)
 
 </details>
 </div>
@@ -2553,5 +2554,96 @@ Day 20 reinforced the power of pattern simplification — transforming a grid-ba
 This problem was a great exercise in recognizing relationships between consecutive rows and using incremental computation to achieve efficiency.
 
 Each challenge brings me closer to mastering data pattern intuition and logical design thinking! 🚀💻
+
+---
+
+## Day 21
+
+# 🚀 50 Days of LeetCode — Day 21
+
+Welcome to **Day 21** of my #50DaysOfCode challenge!
+Today’s problem was a brilliant mix of **array manipulation**, **prefix-sum logic**, and **direction-based simulation** — blending mathematical balance with algorithmic clarity! ⚙️💫
+
+---
+
+## 🧩 Problem — Make Array Elements Equal to Zero
+
+**LeetCode 3354 | Easy**
+
+### 🔍 Problem Description
+
+You are given an integer array `nums`.
+You start from a position `curr` where `nums[curr] == 0` and pick a direction — left or right.
+
+At each step:
+
+* If you’re **out of bounds**, stop.
+* If `nums[curr] == 0`, move in the current direction.
+* If `nums[curr] > 0`, decrement it by 1, **reverse** direction, and move one step.
+
+A selection is **valid** if, by the end of the process, all elements in `nums` become 0.
+Your task is to return the **number of valid selections** of starting points and directions.
+
+---
+
+### 💭 Approach
+
+1. **Compute total sum of elements** to track total decrements needed.
+2. **Iterate through each index:**
+
+   * Maintain a running sum of elements to the left (`leftSum`).
+   * For every zero element, calculate the difference between left and right sums.
+3. **Check balance conditions:**
+
+   * If the difference is 0, both directions are valid → add 2.
+   * If the difference is 1, only one direction is valid → add 1.
+
+🧠 **Complexity:**
+Time = O(n)
+Space = O(1)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int countValidSelections(int[] nums) {
+        int totalSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+        
+        int result = 0;
+        int leftSum = 0;
+        
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                int rightSum = totalSum - leftSum;
+                int diff = Math.abs(rightSum - leftSum);
+                
+                if (diff == 0) {
+                    result += 2;
+                } else if (diff == 1) {
+                    result++;
+                }
+            }
+            leftSum += nums[i];
+        }
+        
+        return result;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 21
+
+Day 21 was a perfect reminder that even **simulation-based problems** can often be reduced to elegant **mathematical reasoning**! 🔢✨
+By combining cumulative sums and balance checking, I discovered a clean linear-time solution that avoids brute-force simulation entirely.
+
+This problem reinforced how **understanding symmetry** and **directional logic** can simplify dynamic processes into pure number relationships.
+Here’s to more days of analytical discovery and elegant solutions! 🚀💻
 
 ---
