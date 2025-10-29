@@ -23,6 +23,7 @@
 - [Day 19](#day-19)
 - [Day 20](#day-20)
 - [Day 21](#day-21)
+- [Day 22](#day-22)
 
 </details>
 </div>
@@ -2647,3 +2648,83 @@ This problem reinforced how **understanding symmetry** and **directional logic**
 Here’s to more days of analytical discovery and elegant solutions! 🚀💻
 
 ---
+
+## Day 22
+
+# 🚀 50 Days of LeetCode — Day 22
+
+Welcome to **Day 22** of my #50DaysOfCode challenge!
+Today’s problem was a short yet powerful exercise in **bit manipulation**, **binary reasoning**, and **mathematical pattern detection** — showing how simplicity and insight can go hand in hand. ⚙️💡
+
+---
+
+## 🧩 Problem — Smallest Number With All Set Bits
+
+**LeetCode 3370 | Easy**
+
+### 🔍 Problem Description
+
+You are given a positive integer `n`.
+
+Your task is to find the **smallest number `x` greater than or equal to `n`** such that the **binary representation of `x` contains only set bits (1s)**.
+
+---
+
+### 🧠 Example
+
+**Input:**
+`n = 5`
+**Output:**
+`7`
+**Explanation:**
+Binary of 7 → `"111"`, which is the smallest all-set-bit number ≥ 5.
+
+**Input:**
+`n = 10`
+**Output:**
+`15`
+**Explanation:**
+Binary of 15 → `"1111"`, the smallest all-set-bit number ≥ 10.
+
+---
+
+### 💭 Approach
+
+1. Start with `res = 1` — the smallest number with all bits set (`1` in binary).
+2. Repeatedly **expand** the number by doubling and adding one:
+
+   * This operation (`res = res * 2 + 1`) generates numbers like 1, 3, 7, 15, 31, 63, ...
+   * Each is of the form `2^k - 1`, meaning all bits are set.
+3. Stop once `res >= n`, ensuring it’s the smallest all-set-bit number that satisfies the condition.
+
+🧠 **Complexity:**
+Time = O(log n)
+Space = O(1)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int smallestNumber(int n) {
+        int res = 1;
+        while (res < n) {
+            res = res * 2 + 1;
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 22
+
+Day 22 was a delightful reminder that **bit manipulation** problems often hide in plain sight! 💫
+By recognizing that all-set-bit numbers follow the pattern `2^k - 1`, the challenge reduces to a clean loop with logarithmic growth.
+
+It’s amazing how understanding **binary patterns** allows for quick, elegant, and mathematically sound solutions — proving once again that simplicity is the ultimate sophistication in coding! 🚀💻
+
+---
+
