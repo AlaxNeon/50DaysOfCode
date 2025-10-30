@@ -24,6 +24,7 @@
 - [Day 20](#day-20)
 - [Day 21](#day-21)
 - [Day 22](#day-22)
+- [Day 23](#day-23)
 
 </details>
 </div>
@@ -2728,3 +2729,83 @@ It’s amazing how understanding **binary patterns** allows for quick, elegant, 
 
 ---
 
+## Day 23
+
+# 🚀 50 Days of LeetCode — Day 23
+
+Welcome to **Day 23** of my #50DaysOfCode challenge!
+Today’s problem was a deep dive into **greedy algorithms**, **difference computation**, and **incremental array transformation** — tackling one of the most elegant subarray increment problems in LeetCode! 💪💡
+
+---
+
+## 🧩 Problem — Minimum Number of Increments on Subarrays to Form a Target Array
+
+**LeetCode 1526 | Hard**
+
+### 🔍 Problem Description
+
+You are given an integer array `target`.
+You start with another array `initial` of the same size, with all elements set to 0.
+
+In one operation, you can choose **any subarray** of `initial` and **increment each value by 1**.
+Your goal is to form `target` from `initial` using the **minimum number of operations**.
+
+Return that minimum number.
+
+---
+
+### 🧠 Example
+
+**Input:**
+`target = [1,2,3,2,1]`
+**Output:**
+`3`
+
+**Explanation:**
+1️⃣ Increment all elements → `[1,1,1,1,1]`
+2️⃣ Increment middle subarray → `[1,2,2,2,1]`
+3️⃣ Increment center → `[1,2,3,2,1]`
+
+Minimum operations = **3** ✅
+
+---
+
+### 💭 Approach
+
+1. The number of operations equals how many **times we need to raise elements** compared to their previous element.
+2. The **first element** requires `target[0]` operations (since we start from zero).
+3. For each next element, if `target[i] > target[i - 1]`, we need extra operations equal to the **difference**.
+4. Sum all these positive differences to get the total operations.
+
+🧠 **Complexity:**
+Time = O(n)
+Space = O(1)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int minNumberOperations(int[] target) {
+        int operations = target[0];
+        for (int i = 1; i < target.length; i++) {
+            if (target[i] > target[i - 1]) {
+                operations += target[i] - target[i - 1];
+            }
+        }
+        return operations;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 23
+
+Day 23 was a masterclass in **greedy problem-solving** — turning what seems like a simulation into a pure difference-based logic problem! 🔥
+By focusing on **increment transitions** rather than entire subarrays, I learned how to reason in deltas, not absolute states — a key mindset for writing efficient, optimized algorithms.
+
+This challenge beautifully showcased how understanding **change patterns** can simplify even the most complex transformations. 🚀💻
+
+---
