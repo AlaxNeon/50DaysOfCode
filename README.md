@@ -25,6 +25,7 @@
 - [Day 21](#day-21)
 - [Day 22](#day-22)
 - [Day 23](#day-23)
+- [Day 24](#day-24)
 
 </details>
 </div>
@@ -2807,5 +2808,93 @@ Day 23 was a masterclass in **greedy problem-solving** — turning what seems li
 By focusing on **increment transitions** rather than entire subarrays, I learned how to reason in deltas, not absolute states — a key mindset for writing efficient, optimized algorithms.
 
 This challenge beautifully showcased how understanding **change patterns** can simplify even the most complex transformations. 🚀💻
+
+---
+
+## Day 24
+
+# 🚀 50 Days of LeetCode — Day 24
+
+Welcome to **Day 24** of my #50DaysOfCode challenge!
+Today’s problem was a fun and insightful journey into **array analysis**, **frequency tracking**, and **logical deduction** — solving a mystery straight from the digital town of *Digitville*! 🕵️‍♂️💡
+
+---
+
+## 🧩 Problem — The Two Sneaky Numbers of Digitville
+
+**LeetCode 3289 | Easy**
+
+### 🔍 Problem Description
+
+In the town of **Digitville**, there was a list of numbers `nums` containing integers from `0` to `n - 1`.
+Each number was supposed to appear **exactly once**, but two mischievous numbers appeared **twice**, making the list longer than usual! 😄
+
+Your task is to find these two sneaky numbers and return them in an array (in any order).
+
+---
+
+### 🧠 Examples
+
+**Example 1**
+**Input:** `nums = [0,1,1,0]`
+**Output:** `[0,1]`
+➡️ Both 0 and 1 appear twice.
+
+**Example 2**
+**Input:** `nums = [0,3,2,1,3,2]`
+**Output:** `[2,3]`
+
+**Example 3**
+**Input:** `nums = [7,1,5,4,3,4,6,0,9,5,8,2]`
+**Output:** `[4,5]`
+
+---
+
+### 💭 Approach
+
+1. Initialize a boolean array `seen` to track numbers that have already appeared.
+2. Iterate through each number in `nums`.
+3. If it has been seen before, it’s one of the sneaky numbers — add it to the result list.
+4. Stop once both sneaky numbers are found.
+
+🧠 **Complexity:**
+Time = O(n)
+Space = O(n)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int[] getSneakyNumbers(int[] nums) {
+        int[] result = new int[2];
+        int index = 0;
+        int n = nums.length - 2; 
+        boolean[] seen = new boolean[n];
+        
+        for (int num : nums) {
+            if (seen[num]) {
+                result[index++] = num;
+                if (index == 2) {
+                    break;
+                }
+            } else {
+                seen[num] = true;
+            }
+        }
+        
+        return result;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 24
+
+Day 24 brought a delightful detective-style challenge — tracing sneaky duplicates hiding in an almost-perfect sequence! 🕵️‍♂️✨
+This problem reinforced how **logical iteration** and **state tracking** can turn simple patterns into efficient and clean solutions.
+A great reminder that even “easy” problems sharpen essential algorithmic instincts. 💪💻
 
 ---
