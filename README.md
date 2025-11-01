@@ -2898,3 +2898,95 @@ This problem reinforced how **logical iteration** and **state tracking** can tur
 A great reminder that even “easy” problems sharpen essential algorithmic instincts. 💪💻
 
 ---
+
+## Day 25
+
+# 🚀 50 Days of LeetCode — Day 25
+
+Welcome to **Day 25** of my #50DaysOfCode challenge!
+Today’s problem was all about **linked list manipulation**, **set-based filtering**, and **in-place node removal** — tackling how to efficiently modify a linked list based on an array of values! ⚙️💡
+
+---
+
+## 🧩 Problem — Delete Nodes From Linked List Present in Array
+
+**LeetCode 3217 | Medium**
+
+### 🔍 Problem Description
+
+You are given an array of integers `nums` and the head of a linked list.
+Your task is to **remove all nodes** from the linked list that have a value existing in `nums`, and return the modified list’s head.
+
+---
+
+### 🧠 Examples
+
+**Example 1**
+**Input:** `nums = [1,2,3]`, `head = [1,2,3,4,5]`
+**Output:** `[4,5]`
+➡️ Nodes with values 1, 2, and 3 are removed.
+
+**Example 2**
+**Input:** `nums = [1]`, `head = [1,2,1,2,1,2]`
+**Output:** `[2,2,2]`
+➡️ All nodes with value 1 are removed.
+
+**Example 3**
+**Input:** `nums = [5]`, `head = [1,2,3,4]`
+**Output:** `[1,2,3,4]`
+➡️ No nodes are removed.
+
+---
+
+### 💭 Approach
+
+1. Find the **maximum value** in `nums` to size the boolean array efficiently.
+2. Mark all numbers to be removed in a `boolean[] rem` array.
+3. Traverse the linked list, and only link nodes whose values are **not marked for removal**.
+4. Use a dummy head node to simplify list reconstruction.
+
+🧠 **Complexity:**
+Time = O(n + m) → *n = linked list length, m = nums length*
+Space = O(max(nums))
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public ListNode modifiedList(int[] nums, ListNode head) {
+        int maxv = 0;
+        for (int v : nums) {
+            maxv = Math.max(maxv, v);
+        }
+        boolean[] rem = new boolean[maxv + 1];
+        for (int v : nums) {
+            rem[v] = true;
+        }
+        ListNode h = new ListNode(0);
+        ListNode t = h;
+        ListNode p = head;
+        while (p != null) {
+            if (p.val > maxv || !rem[p.val]) {
+                t.next = p;
+                t = p;
+            }
+            p = p.next;
+        }
+        t.next = null;
+        return h.next;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 25
+
+Day 25 was a deep dive into **linked list filtering** and **boolean-based optimization**! 💪
+This problem reinforced how precomputation (using a boolean map) can make node operations fast and memory-friendly — no need for sets or complex data structures.
+
+A great reminder that **linked list manipulation** is all about clarity, pointer handling, and smart filtering logic. 🚀💻
+
+---
