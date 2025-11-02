@@ -27,6 +27,7 @@
 - [Day 23](#day-23)
 - [Day 24](#day-24)
 - [Day 25](#day-25)
+- [Day 26](#day-26)
 
 </details>
 </div>
@@ -2900,55 +2901,58 @@ A great reminder that even “easy” problems sharpen essential algorithmic ins
 
 ---
 
-## Day 25
+## Day 26
 
-# 🚀 50 Days of LeetCode — Day 25
+# 🚀 50 Days of LeetCode — Day 26
 
-Welcome to **Day 25** of my #50DaysOfCode challenge!
-Today’s problem was all about **linked list manipulation**, **set-based filtering**, and **in-place node removal** — tackling how to efficiently modify a linked list based on an array of values! ⚙️💡
+Welcome to **Day 26** of my #50DaysOfCode challenge!
+Today’s problem was an exciting exploration of **grid traversal**, **directional scanning**, and **spatial visibility simulation** — solving a problem that blends logic with geometry and optimization! 🧭⚙️
 
 ---
 
-## 🧩 Problem — Delete Nodes From Linked List Present in Array
+## 🧩 Problem — Count Unguarded Cells in the Grid
 
-**LeetCode 3217 | Medium**
+**LeetCode 2257 | Medium**
 
 ### 🔍 Problem Description
 
-You are given an array of integers `nums` and the head of a linked list.
-Your task is to **remove all nodes** from the linked list that have a value existing in `nums`, and return the modified list’s head.
+You are given two integers `m` and `n` representing a 0-indexed `m x n` grid.
+You are also given two 2D integer arrays `guards` and `walls` representing the positions of guards and walls, respectively.
+
+A **guard** can see every cell in the four directions — north, east, south, and west — until their view is blocked by a wall or another guard.
+A cell is **guarded** if at least one guard can see it.
+
+Return the number of **unguarded and unoccupied cells** in the grid.
 
 ---
 
 ### 🧠 Examples
 
 **Example 1**
-**Input:** `nums = [1,2,3]`, `head = [1,2,3,4,5]`
-**Output:** `[4,5]`
-➡️ Nodes with values 1, 2, and 3 are removed.
+**Input:**
+`m = 4, n = 6, guards = [[0,0],[1,1],[2,3]], walls = [[0,1],[2,2],[1,4]]`
+**Output:** `7`
+➡️ There are 7 unguarded cells after marking all visible positions from the guards.
 
 **Example 2**
-**Input:** `nums = [1]`, `head = [1,2,1,2,1,2]`
-**Output:** `[2,2,2]`
-➡️ All nodes with value 1 are removed.
-
-**Example 3**
-**Input:** `nums = [5]`, `head = [1,2,3,4]`
-**Output:** `[1,2,3,4]`
-➡️ No nodes are removed.
+**Input:**
+`m = 3, n = 3, guards = [[1,1]], walls = [[0,1],[1,0],[2,1],[1,2]]`
+**Output:** `4`
+➡️ The guards’ line of sight is blocked by walls, leaving 4 unguarded cells.
 
 ---
 
 ### 💭 Approach
 
-1. Find the **maximum value** in `nums` to size the boolean array efficiently.
-2. Mark all numbers to be removed in a `boolean[] rem` array.
-3. Traverse the linked list, and only link nodes whose values are **not marked for removal**.
-4. Use a dummy head node to simplify list reconstruction.
+1. Represent the grid as a **flattened byte array** for memory efficiency.
+2. Mark guards with `1` and walls with `2`.
+3. For each guard, simulate vision in four directions until a wall or another guard blocks the path.
+4. Count all guarded cells by marking them as `-1`.
+5. The number of unguarded cells is the total grid size minus guarded, guard, and wall cells.
 
 🧠 **Complexity:**
-Time = O(n + m) → *n = linked list length, m = nums length*
-Space = O(max(nums))
+Time = O(m × n)
+Space = O(m × n)
 
 ---
 
@@ -2956,38 +2960,71 @@ Space = O(max(nums))
 
 ```java
 public class Solution {
-    public ListNode modifiedList(int[] nums, ListNode head) {
-        int maxv = 0;
-        for (int v : nums) {
-            maxv = Math.max(maxv, v);
+    public int countUnguarded(int m, int n, int[][] guards, int[][] walls) {
+        byte[] grid = new byte[m * n];
+        
+        // Mark guards
+        for (int[] g : guards) {
+            grid[g[0] * n + g[1]] = 1;
         }
-        boolean[] rem = new boolean[maxv + 1];
-        for (int v : nums) {
-            rem[v] = true;
+        
+        // Mark walls
+        for (int[] w : walls) {
+            grid[w[0] * n + w[1]] = 2;
         }
-        ListNode h = new ListNode(0);
-        ListNode t = h;
-        ListNode p = head;
-        while (p != null) {
-            if (p.val > maxv || !rem[p.val]) {
-                t.next = p;
-                t = p;
+        
+        int guarded = 0;
+        
+        // Process guard visibility
+        for (int[] g : guards) {
+            int r = g[0], c = g[1];
+            int idx = r * n + c;
+            
+            // Left
+            for (int j = c - 1, i = idx - 1; j >= 0; j--, i--) {
+                byte val = grid[i];
+                if (val > 0) break;
+                if (val == 0) guarded++;
+                grid[i] = -1;
             }
-            p = p.next;
+            
+            // Right
+            for (int j = c + 1, i = idx + 1; j < n; j++, i++) {
+                byte val = grid[i];
+                if (val > 0) break;
+                if (val == 0) guarded++;
+                grid[i] = -1;
+            }
+            
+            // Up
+            for (int i = idx - n; i >= 0; i -= n) {
+                byte val = grid[i];
+                if (val > 0) break;
+                if (val == 0) guarded++;
+                grid[i] = -1;
+            }
+            
+            // Down
+            for (int i = idx + n; i < m * n; i += n) {
+                byte val = grid[i];
+                if (val > 0) break;
+                if (val == 0) guarded++;
+                grid[i] = -1;
+            }
         }
-        t.next = null;
-        return h.next;
+        
+        return m * n - guards.length - walls.length - guarded;
     }
 }
 ```
 
 ---
 
-### 🎯 Conclusion — Day 25
+### 🎯 Conclusion — Day 26
 
-Day 25 was a deep dive into **linked list filtering** and **boolean-based optimization**! 💪
-This problem reinforced how precomputation (using a boolean map) can make node operations fast and memory-friendly — no need for sets or complex data structures.
+Day 26 was a brilliant test of **spatial reasoning and algorithmic efficiency**! 💪
+By leveraging flattened indexing and directional scanning, I learned how to simulate real-world visibility problems in an optimized manner.
 
-A great reminder that **linked list manipulation** is all about clarity, pointer handling, and smart filtering logic. 🚀💻
+It’s fascinating how **guard visibility**, **walls**, and **grid traversal** can be reduced to clean loops and logical checks — turning spatial problems into elegant algorithmic patterns. 🚀💻
 
 ---
