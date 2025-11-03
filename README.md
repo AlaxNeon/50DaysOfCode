@@ -28,6 +28,7 @@
 - [Day 24](#day-24)
 - [Day 25](#day-25)
 - [Day 26](#day-26)
+- [Day 27](#day-27)
 
 </details>
 </div>
@@ -3026,5 +3027,88 @@ Day 26 was a brilliant test of **spatial reasoning and algorithmic efficiency**!
 By leveraging flattened indexing and directional scanning, I learned how to simulate real-world visibility problems in an optimized manner.
 
 It’s fascinating how **guard visibility**, **walls**, and **grid traversal** can be reduced to clean loops and logical checks — turning spatial problems into elegant algorithmic patterns. 🚀💻
+
+---
+
+## Day 27
+
+# 🚀 50 Days of LeetCode — Day 27
+
+Welcome to **Day 27** of my #50DaysOfCode challenge!
+Today’s problem was a colorful mix of **greedy strategy**, **array optimization**, and **string manipulation** — solving how to minimize time while keeping the rope beautifully colorful! 🎨💡
+
+---
+
+## 🧩 Problem — Minimum Time to Make Rope Colorful
+
+**LeetCode 1578 | Medium**
+
+### 🔍 Problem Description
+
+Alice has `n` balloons arranged on a rope, represented by a string `colors` where `colors[i]` is the color of the `i-th` balloon.
+She wants the rope to be colorful — meaning **no two consecutive balloons should share the same color**.
+
+Bob can remove balloons, and each removal takes `neededTime[i]` seconds.
+Return the **minimum total time** needed to make the rope colorful.
+
+---
+
+### 🧠 Examples
+
+**Example 1**
+**Input:** `colors = "abaac"`, `neededTime = [1,2,3,4,5]`
+**Output:** `3`
+➡️ Remove the blue balloon at index 2 (time = 3). The rope becomes colorful.
+
+**Example 2**
+**Input:** `colors = "abc"`, `neededTime = [1,2,3]`
+**Output:** `0`
+➡️ Already colorful — no removal needed.
+
+**Example 3**
+**Input:** `colors = "aabaa"`, `neededTime = [1,2,3,4,1]`
+**Output:** `2`
+➡️ Remove balloons at indices 0 and 4 (time = 1 + 1 = 2).
+
+---
+
+### 💭 Approach
+
+1. Traverse the rope balloon by balloon.
+2. Whenever **two consecutive colors match**, remove the one with **less removal time** to minimize cost.
+3. Keep updating the `cost[i]` to the **max of the pair**, ensuring future comparisons are correct.
+
+🧠 **Complexity:**
+Time = O(n)
+Space = O(1)
+
+---
+
+### 💻 Code
+
+```java
+public class Solution {
+    public int minCost(String s, int[] cost) {
+        char[] str = s.toCharArray();
+        int minCost = 0;
+        for (int i = 1; i < str.length; i++) {
+            if (str[i] == str[i - 1]) {
+                minCost += Math.min(cost[i], cost[i - 1]);
+                cost[i] = Math.max(cost[i], cost[i - 1]);
+            }
+        }
+        return minCost;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 27
+
+Day 27 was all about mastering **greedy optimization and string traversal**! 💪
+This problem beautifully illustrates how small, local decisions (removing the cheaper duplicate) can lead to a globally optimal result.
+
+It’s another perfect reminder that sometimes the simplest logic — like comparing adjacent elements — can solve complex-looking challenges with elegance and precision. ⚙️💻
 
 ---
