@@ -29,6 +29,7 @@
 - [Day 25](#day-25)
 - [Day 26](#day-26)
 - [Day 27](#day-27)
+- [Day 28](#day-28)
 
 </details>
 </div>
@@ -3110,5 +3111,146 @@ Day 27 was all about mastering **greedy optimization and string traversal**! �
 This problem beautifully illustrates how small, local decisions (removing the cheaper duplicate) can lead to a globally optimal result.
 
 It’s another perfect reminder that sometimes the simplest logic — like comparing adjacent elements — can solve complex-looking challenges with elegance and precision. ⚙️💻
+
+---
+
+## Day 28
+
+# 🚀 50 Days of LeetCode — Day 28
+
+Welcome to **Day 28** of my #50DaysOfCode challenge!
+Today’s problem combined **frequency analysis**, **selection-based optimization**, and **subarray computation** — exploring how to efficiently calculate the *X-Sum* for every subarray of length `k`! 🔢⚙️
+
+---
+
+## 🧩 Problem — Find X-Sum of All K-Long Subarrays I
+
+**LeetCode 3318 | Easy**
+
+### 🔍 Problem Description
+
+You are given an array `nums` of `n` integers and two integers `k` and `x`.
+
+The **x-sum** of an array is computed by:
+
+1. Counting occurrences of each element.
+2. Keeping only the top `x` most frequent elements.
+
+   * If two elements have the same frequency, the **larger value** is considered more frequent.
+3. Summing the resulting array.
+
+If there are fewer than `x` distinct elements, the x-sum is simply the sum of the array.
+
+Return an array `answer` where `answer[i]` is the x-sum of the subarray `nums[i..i + k - 1]`.
+
+---
+
+### 🧠 Examples
+
+**Example 1**
+**Input:** `nums = [1,1,2,2,3,4,2,3], k = 6, x = 2`
+**Output:** `[6,10,12]`
+➡️ The top 2 frequent elements are used to calculate each subarray’s X-sum.
+
+**Example 2**
+**Input:** `nums = [3,8,7,8,7,5], k = 2, x = 2`
+**Output:** `[11,15,15,15,12]`
+➡️ Since `k == x`, each X-sum equals the sum of its subarray.
+
+---
+
+### 💭 Approach
+
+1. Iterate through all possible subarrays of size `k`.
+2. Count frequencies using a fixed-size array (`freq[51]`) for fast access.
+3. Store distinct elements and use **partial selection sorting** to get the top `x` by:
+
+   * Frequency (descending)
+   * Value (descending, for tie-breaking)
+4. Compute the weighted sum of the top `x` elements to form the X-sum for that subarray.
+
+🧠 **Complexity:**
+Time = O(n × 50 × x) (manageable for constraints)
+Space = O(50)
+
+---
+
+### 💻 Code
+
+```java
+class Solution {
+    public int[] findXSum(int[] nums, int k, int x) {
+        int n = nums.length;
+        int[] answer = new int[n - k + 1];
+        int[] freq = new int[51];
+        int[] pairs = new int[51];
+        
+        for (int i = 0; i <= n - k; i++) {
+            answer[i] = calculateXSum(nums, i, i + k - 1, x, freq, pairs);
+        }
+        
+        return answer;
+    }
+    
+    private int calculateXSum(int[] nums, int start, int end, int x, int[] freq, int[] pairs) {
+        // Reset frequency array
+        int distinctCount = 0;
+        for (int i = 1; i <= 50; i++) {
+            freq[i] = 0;
+        }
+        
+        // Count frequencies
+        for (int i = start; i <= end; i++) {
+            if (freq[nums[i]] == 0) {
+                pairs[distinctCount++] = nums[i];
+            }
+            freq[nums[i]]++;
+        }
+        
+        // If less than x distinct elements, sum everything
+        if (distinctCount <= x) {
+            int sum = 0;
+            for (int i = 0; i < distinctCount; i++) {
+                int val = pairs[i];
+                sum += val * freq[val];
+            }
+            return sum;
+        }
+        
+        // Select top x by frequency (and value)
+        for (int i = 0; i < x; i++) {
+            int maxIdx = i;
+            for (int j = i + 1; j < distinctCount; j++) {
+                int val1 = pairs[j];
+                int val2 = pairs[maxIdx];
+                if (freq[val1] > freq[val2] || 
+                    (freq[val1] == freq[val2] && val1 > val2)) {
+                    maxIdx = j;
+                }
+            }
+            int temp = pairs[i];
+            pairs[i] = pairs[maxIdx];
+            pairs[maxIdx] = temp;
+        }
+        
+        // Compute sum of top x
+        int sum = 0;
+        for (int i = 0; i < x; i++) {
+            int val = pairs[i];
+            sum += val * freq[val];
+        }
+        return sum;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 28
+
+Day 28 was all about **frequency-driven logic** and **smart local selection**! 💪
+By combining counting, ranking, and summing, I got to explore how **custom sorting logic** and **partial optimization** can simplify seemingly complex subarray problems.
+
+It’s a beautiful mix of **mathematical reasoning** and **algorithmic clarity**, reminding me that elegant solutions often come from keeping both **logic and data flow simple**. 🚀💻
 
 ---
