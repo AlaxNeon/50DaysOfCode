@@ -30,6 +30,7 @@
 - [Day 26](#day-26)
 - [Day 27](#day-27)
 - [Day 28](#day-28)
+- [Day 29](#day-29)
 
 </details>
 </div>
@@ -3252,5 +3253,180 @@ Day 28 was all about **frequency-driven logic** and **smart local selection**! �
 By combining counting, ranking, and summing, I got to explore how **custom sorting logic** and **partial optimization** can simplify seemingly complex subarray problems.
 
 It’s a beautiful mix of **mathematical reasoning** and **algorithmic clarity**, reminding me that elegant solutions often come from keeping both **logic and data flow simple**. 🚀💻
+
+---
+
+## Day 29
+
+# 🚀 50 Days of LeetCode — Day 29
+
+Welcome to **Day 29** of my #50DaysOfCode challenge!
+Today’s challenge leveled up the complexity — turning a simple counting problem into a test of **data structure balancing**, **frequency tracking**, and **real-time subarray computation**! ⚙️🔥
+
+---
+
+## 🧩 Problem — Find X-Sum of All K-Long Subarrays II
+
+**LeetCode 3321 | Hard**
+
+### 🔍 Problem Description
+
+You are given an array `nums` of `n` integers and two integers `k` and `x`.
+
+The **x-sum** of an array is defined by:
+
+1. Counting occurrences of all elements in the array.
+2. Keeping only the occurrences of the top `x` most frequent elements.
+
+   * If two elements have the same count, the **larger value** is considered more frequent.
+3. Summing all occurrences of those top `x` elements.
+
+If there are fewer than `x` distinct elements, the x-sum is the sum of the entire subarray.
+
+Return an array `answer` where `answer[i]` is the x-sum of the subarray `nums[i..i + k - 1]`.
+
+---
+
+### 🧠 Examples
+
+**Example 1**
+**Input:** `nums = [1,1,2,2,3,4,2,3]`, `k = 6`, `x = 2`
+**Output:** `[6,10,12]`
+➡️ Each subarray keeps only the top 2 most frequent elements based on the defined rule.
+
+**Example 2**
+**Input:** `nums = [3,8,7,8,7,5]`, `k = 2`, `x = 2`
+**Output:** `[11,15,15,15,12]`
+➡️ Since `k == x`, every subarray’s x-sum equals the sum of its elements.
+
+---
+
+### 💭 Approach
+
+This advanced variant of the X-Sum problem demanded maintaining **dynamic frequency states** across a sliding window efficiently.
+
+1. Use two **balanced TreeSets (`s1` and `s2`)**:
+
+   * `s1` holds the top `x` elements by frequency and value (for the current x-sum).
+   * `s2` holds all other elements.
+2. Track occurrences in a **HashMap** to update and rebalance frequencies as the window slides.
+3. Maintain the **current sum** and **x-sum** dynamically:
+
+   * When adding/removing an element, update sets and adjust sums in O(log n).
+4. At each step, rebalance sets to ensure `s1` always contains exactly the top `x` elements.
+
+🧠 **Complexity:**
+
+* Time = O(n log n)
+* Space = O(n)
+
+Efficiently handling rebalancing between TreeSets was key to achieving optimal performance for large inputs (`n ≤ 10⁵`).
+
+---
+
+### 💻 Code
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
+
+@SuppressWarnings("java:S1210")
+public class Solution {
+    private static class RC implements Comparable<RC> {
+        int val;
+        int cnt;
+
+        RC(int v, int c) {
+            val = v;
+            cnt = c;
+        }
+
+        public int compareTo(RC o) {
+            if (cnt != o.cnt) return cnt - o.cnt;
+            return val - o.val;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof RC)) return false;
+            RC other = (RC) o;
+            return val == other.val && cnt == other.cnt;
+        }
+
+        @Override
+        public int hashCode() {
+            return val * 31 + cnt;
+        }
+    }
+
+    public long[] findXSum(int[] nums, int k, int x) {
+        int n = nums.length;
+        long[] ans = new long[n - k + 1];
+        Map<Integer, Integer> cnt = new HashMap<>();
+        TreeSet<RC> s1 = new TreeSet<>();
+        TreeSet<RC> s2 = new TreeSet<>();
+        long sum = 0, xSum = 0;
+
+        for (int i = 0; i < n; ++i) {
+            sum += nums[i];
+            int curCnt = cnt.getOrDefault(nums[i], 0);
+
+            if (curCnt > 0) {
+                RC old = new RC(nums[i], curCnt);
+                if (s1.remove(old)) xSum -= (long) nums[i] * curCnt;
+                else s2.remove(old);
+            }
+
+            cnt.put(nums[i], curCnt + 1);
+            RC newRC = new RC(nums[i], curCnt + 1);
+            s1.add(newRC);
+            xSum += (long) nums[i] * (curCnt + 1);
+
+            while (s1.size() > x) {
+                RC l = s1.pollFirst();
+                xSum -= (long) l.val * l.cnt;
+                s2.add(l);
+            }
+
+            if (i >= k - 1) {
+                ans[i - k + 1] = s1.size() == x ? xSum : sum;
+
+                int v = nums[i - k + 1];
+                sum -= v;
+                curCnt = cnt.get(v);
+
+                RC old = new RC(v, curCnt);
+                if (s1.remove(old)) xSum -= (long) v * curCnt;
+                else s2.remove(old);
+
+                if (curCnt > 1) {
+                    cnt.put(v, curCnt - 1);
+                    s2.add(new RC(v, curCnt - 1));
+                } else {
+                    cnt.remove(v);
+                }
+
+                while (s1.size() < x && !s2.isEmpty()) {
+                    RC r = s2.pollLast();
+                    s1.add(r);
+                    xSum += (long) r.val * r.cnt;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 29
+
+Day 29 was a true test of **data structure mastery** and **logical precision**. 💪
+By leveraging `TreeSet` balancing and real-time updates, this problem showcased how **ordered sets** and **incremental frequency tracking** can elegantly solve high-complexity sliding window problems.
+
+It reinforced the power of **strategic design** — where thoughtful data handling transforms what seems like chaos into clarity and control. ⚡📊
+A perfect blend of **mathematical insight** and **algorithmic finesse**! 🚀
 
 ---
