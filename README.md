@@ -31,6 +31,7 @@
 - [Day 27](#day-27)
 - [Day 28](#day-28)
 - [Day 29](#day-29)
+- [Day 30](#day-30)
 
 </details>
 </div>
@@ -3428,5 +3429,175 @@ By leveraging `TreeSet` balancing and real-time updates, this problem showcased 
 
 It reinforced the power of **strategic design** — where thoughtful data handling transforms what seems like chaos into clarity and control. ⚡📊
 A perfect blend of **mathematical insight** and **algorithmic finesse**! 🚀
+
+---
+
+## Day 30
+
+# ⚡ 50 Days of LeetCode — Day 30
+
+Welcome to **Day 30** of my #50DaysOfCode challenge!  
+Today’s challenge was a thrilling journey through **Union-Find (Disjoint Set Union)** logic and **priority-based grid tracking**, testing the balance between **connectivity** and **dynamic state management**. ⚙️🔋
+
+---
+
+## 🧩 Problem — Power Grid Maintenance
+
+**LeetCode 3607 | Medium**
+
+### 🔍 Problem Description
+
+You are given an integer `c` representing `c` power stations (1-based indexing).  
+These stations are connected via `n` bidirectional cables given by `connections[i] = [ui, vi]`.  
+Stations that are directly or indirectly connected form a **power grid**.
+
+Initially, all stations are **online** (operational).
+
+You are also given a list of queries of two types:
+
+1. `[1, x]`: A maintenance check is requested for station `x`.  
+   - If `x` is online, it resolves the check itself.  
+   - If `x` is offline, the check is resolved by the **smallest operational station** in the same power grid.  
+   - If there is no operational station, return `-1`.
+
+2. `[2, x]`: Station `x` goes **offline** (becomes non-operational).
+
+Return an array containing the results of all type `[1, x]` queries in order.
+
+---
+
+### 🧠 Example
+
+**Input:**  
+`c = 5, connections = [[1,2],[2,3],[3,4],[4,5]], queries = [[1,3],[2,1],[1,1],[2,2],[1,2]]`  
+
+**Output:**  
+`[3,2,3]`
+
+**Explanation:**  
+- Initially all stations `{1,2,3,4,5}` are online.  
+- Query `[1,3]`: Station 3 is online → resolves itself → **3**  
+- Query `[2,1]`: Station 1 goes offline.  
+- Query `[1,1]`: Station 1 is offline → smallest online in grid is **2**  
+- Query `[2,2]`: Station 2 goes offline.  
+- Query `[1,2]`: Station 2 is offline → smallest online in grid is **3**  
+
+---
+
+### 💭 Approach
+
+This problem revolves around efficiently maintaining **connected components** and dynamically tracking the **smallest online station** per grid.
+
+1. **Union-Find (Disjoint Set Union)** is used to group stations into grids.  
+   - Each component (grid) keeps track of all its station IDs in a **min-priority queue**.
+2. Initially, all stations are marked **active (online)**.
+3. For query `[1, x]`:  
+   - If station `x` is active → return `x`.  
+   - Else, find its grid parent → pop inactive stations from the PQ until we find the smallest online station.  
+   - Return that station’s ID or `-1` if none exist.
+4. For query `[2, x]`:  
+   - Simply mark station `x` as **inactive**.
+5. Union operations merge the smaller PQ into the larger one to keep operations efficient.
+
+🧠 **Complexity:**  
+- Time = `O((n + q) log n)` due to union and PQ operations.  
+- Space = `O(n)` for parent arrays and queues.
+
+---
+
+### 💻 Code
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+
+@SuppressWarnings("unchecked")
+public class Solution {
+    private static class UF {
+        int[] par;
+        PriorityQueue<Integer>[] pq;
+        boolean[] active;
+
+        UF(int n) {
+            par = new int[n];
+            pq = new PriorityQueue[n];
+            active = new boolean[n];
+            for (int i = 0; i < n; i++) {
+                active[i] = true;
+                par[i] = i;
+                pq[i] = new PriorityQueue<>();
+                pq[i].add(i);
+            }
+        }
+
+        int find(int u) {
+            if (par[u] == u) {
+                return u;
+            }
+            par[u] = find(par[u]);
+            return par[u];
+        }
+
+        void union(int u, int v) {
+            int pu = find(u);
+            int pv = find(v);
+            if (pu == pv) {
+                return;
+            }
+            if (pq[pu].size() > pq[pv].size()) {
+                while (!pq[pv].isEmpty()) {
+                    pq[pu].add(pq[pv].poll());
+                }
+                par[pv] = pu;
+            } else {
+                while (!pq[pu].isEmpty()) {
+                    pq[pv].add(pq[pu].poll());
+                }
+                par[pu] = pv;
+            }
+        }
+
+        void inactive(int u) {
+            active[u] = false;
+        }
+
+        int check(int u) {
+            if (active[u]) {
+                return u;
+            }
+            int pu = find(u);
+            while (!pq[pu].isEmpty() && !active[pq[pu].peek()]) {
+                pq[pu].poll();
+            }
+            return pq[pu].isEmpty() ? -2 : pq[pu].peek();
+        }
+    }
+
+    public int[] processQueries(int c, int[][] connections, int[][] queries) {
+        UF uf = new UF(c);
+        for (int[] con : connections) {
+            int u = con[0];
+            int v = con[1];
+            uf.union(u - 1, v - 1);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int[] q : queries) {
+            if (q[0] == 1) {
+                res.add(uf.check(q[1] - 1) + 1);
+            } else {
+                uf.inactive(q[1] - 1);
+            }
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
+```
+### 🎯 Conclusion — Day 30
+
+Day 30 tested connectivity logic, priority queue management, and Union-Find optimization — all in one! ⚡
+By combining DSU for grid management and PQs for quick access to the smallest online station, I learned how to handle dynamic queries efficiently in interconnected systems.
+
+This problem highlighted the beauty of data structure synergy — where the right mix of DSU and heap logic creates a clean, powerful solution. 🚀⚙️
 
 ---
