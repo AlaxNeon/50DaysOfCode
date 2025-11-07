@@ -32,6 +32,7 @@
 - [Day 28](#day-28)
 - [Day 29](#day-29)
 - [Day 30](#day-30)
+- [Day 31](#day-31)
 
 </details>
 </div>
@@ -3599,5 +3600,159 @@ Day 30 tested connectivity logic, priority queue management, and Union-Find opti
 By combining DSU for grid management and PQs for quick access to the smallest online station, I learned how to handle dynamic queries efficiently in interconnected systems.
 
 This problem highlighted the beauty of data structure synergy — where the right mix of DSU and heap logic creates a clean, powerful solution. 🚀⚙️
+
+---
+
+## Day 31
+
+# ⚙️ 50 Days of LeetCode — Day 31
+
+Welcome to **Day 31** of my #50DaysOfCode challenge!  
+Today’s problem took me deep into **binary search on answers**, **range coverage simulation**, and **prefix difference optimization** — all in one complex power-distribution scenario. ⚡🏙️
+
+---
+
+## 🧩 Problem — Maximize the Minimum Powered City
+
+**LeetCode 2528 | Hard**
+
+### 🔍 Problem Description
+
+You are given a 0-indexed integer array `stations` of length `n`, where `stations[i]` represents the number of power stations in the `i-th` city.  
+Each power station provides power to all cities within range `r`, meaning for every city `j` such that `|i - j| <= r`.
+
+You are also given two integers `r` and `k`, where you can **build up to `k` more power stations** anywhere.  
+Your goal is to **maximize the minimum power** among all cities, after optimally placing the new stations.
+
+---
+
+### 💡 Approach
+
+This problem required a hybrid of **binary search** and **greedy prefix difference logic**:
+
+1. Compute each city's **base power** using a sliding window of range `r`.  
+2. Use **binary search** on the possible minimum power level `mid`.  
+3. For each `mid`, simulate adding power stations using a **difference array** to ensure O(n) simulation.  
+4. Greedily add stations where power < `mid` and adjust future effects via the diff array.  
+5. Track if the total added stations ≤ `k`.  
+
+The binary search continues until the maximum feasible `mid` is found — representing the highest possible *minimum city power*.
+
+---
+
+### ⚙️ Complexity
+
+- **Time Complexity:** `O(n log M)` where `M` is the search range of power levels.  
+- **Space Complexity:** `O(n)` due to auxiliary arrays.  
+
+---
+
+### 🧠 Key Insights
+
+- Efficiently simulating station additions using a **difference array** avoids repetitive updates.  
+- Binary search on the answer ensures we never overshoot feasible power values.  
+- Careful window and index management is crucial to maintaining accuracy at scale (n ≤ 10⁵).
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public long maxPower(int[] stations, int r, int k) {
+        int n = stations.length;
+        long[] base = new long[n];
+        long windowSum = 0;
+        int rightBound = Math.min(n - 1, r);
+        
+        for (int i = 0; i <= rightBound; i++) {
+            windowSum += stations[i];
+        }
+        base[0] = windowSum;
+        
+        for (int i = 1; i < n; i++) {
+            int right = i + r;
+            int left = i - r - 1;
+            if (right < n) windowSum += stations[right];
+            if (left >= 0) windowSum -= stations[left];
+            base[i] = windowSum;
+        }
+        
+        long minBase = base[0];
+        long maxBase = base[0];
+        for (int i = 1; i < n; i++) {
+            if (base[i] < minBase) minBase = base[i];
+            if (base[i] > maxBase) maxBase = base[i];
+        }
+        
+        long low = minBase;
+        long high = maxBase + k;
+        if (low == high) return low;
+        
+        long[] diff = new long[n + 1];
+        int doubleR = r << 1;
+        
+        while (low <= high) {
+            long mid = low + ((high - low) >>> 1);
+            for (int i = 0; i <= n; i++) diff[i] = 0;
+            
+            long added = 0;
+            long remaining = k;
+            boolean possible = true;
+            int i = 0;
+            int limit = n - 3;
+            
+            while (i < limit) {
+                added += diff[i];
+                long current = base[i] + added;
+                if (current < mid) {
+                    long need = mid - current;
+                    if (need > remaining) {
+                        possible = false;
+                        break;
+                    }
+                    remaining -= need;
+                    added += need;
+                    int end = i + doubleR + 1;
+                    if (end < n) diff[end] -= need;
+                }
+                i++;
+            }
+            
+            while (possible && i < n) {
+                added += diff[i];
+                long current = base[i] + added;
+                if (current < mid) {
+                    long need = mid - current;
+                    if (need > remaining) {
+                        possible = false;
+                        break;
+                    }
+                    remaining -= need;
+                    added += need;
+                    int end = i + doubleR + 1;
+                    if (end < n) diff[end] -= need;
+                }
+                i++;
+            }
+            
+            if (possible) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        
+        return high;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 31
+
+Day 31 pushed my problem-solving boundaries by combining **binary search**, **range simulation**, and **greedy allocation** — all under tight performance limits. ⚙️📈  
+By blending difference arrays with a smart binary search approach, I learned how to **simulate dynamic system constraints** efficiently and reason about **feasibility within optimization loops**.  
+
+This problem beautifully demonstrated the power of algorithm layering — where mathematical reasoning meets computational precision to build scalable, high-performance solutions. 🚀💡
 
 ---
