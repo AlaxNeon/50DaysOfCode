@@ -33,6 +33,7 @@
 - [Day 29](#day-29)
 - [Day 30](#day-30)
 - [Day 31](#day-31)
+- [Day 32](#day-32)
 
 </details>
 </div>
@@ -3754,5 +3755,81 @@ Day 31 pushed my problem-solving boundaries by combining **binary search**, **ra
 By blending difference arrays with a smart binary search approach, I learned how to **simulate dynamic system constraints** efficiently and reason about **feasibility within optimization loops**.  
 
 This problem beautifully demonstrated the power of algorithm layering — where mathematical reasoning meets computational precision to build scalable, high-performance solutions. 🚀💡
+
+---
+
+## Day 32  
+
+# ⚙️ 50 Days of LeetCode — Day 32  
+
+Welcome to **Day 32** of my #50DaysOfCode challenge!  
+Today’s challenge was all about **bit manipulation**, **pattern recognition**, and **mathematical reasoning** — turning binary transformations into elegant XOR logic. ⚡💻  
+
+---
+
+## 🧩 Problem — Minimum One Bit Operations to Make Integers Zero  
+
+**LeetCode 1611 | Hard**
+
+### 🔍 Problem Description  
+
+You are given an integer `n`, and you must transform it into `0` using the following operations any number of times:
+
+1. **Change the rightmost (0th) bit** in the binary representation of `n`.  
+2. **Change the ith bit** if the `(i-1)th` bit is set to 1 and all lower bits are 0.  
+
+Return the *minimum number of operations* required to make `n = 0`.  
+
+---
+
+### 💡 Approach  
+
+At first glance, this problem looks like a complex **bitwise toggle puzzle**, but beneath the surface lies a **Gray code transformation pattern**!  
+
+Here’s how I broke it down:
+
+1. Observe how bits flip in sequences similar to **binary reflected Gray codes**.  
+2. The key insight:  
+   - The number of operations needed to make `n = 0` follows a recursive XOR pattern.  
+3. Instead of recursion, I optimized it into an iterative **bitwise XOR accumulation**:  
+   - For every right shift of `n`, XOR it with the running total.  
+4. This effectively simulates the Gray code inverse transformation in `O(log n)` time!  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(log n)`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 🧠 Key Insights  
+
+- Every operation mirrors **Gray code transitions** — only one bit changes at a time.  
+- XOR chaining allows compact and efficient computation without recursion.  
+- A pure bit-manipulation beauty — mathematical and elegant! ✨  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int minimumOneBitOperations(int n) {
+        int result = 0;
+        while (n > 0) {
+            result ^= n;
+            n >>= 1;
+        }
+        return result;
+    }
+}
+```
+### 🎯 Conclusion — Day 32
+
+Day 32 was a mind-twister that showed how complex transformations can sometimes collapse into simple XOR patterns when you spot the underlying logic. 🔁✨
+
+From recursive bit toggling to compact iterative logic, today’s problem was a beautiful reminder of how bit manipulation can turn chaos into clarity — the perfect harmony of math and code. 💡⚙️
 
 ---
