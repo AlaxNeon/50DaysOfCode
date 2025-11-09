@@ -34,6 +34,7 @@
 - [Day 30](#day-30)
 - [Day 31](#day-31)
 - [Day 32](#day-32)
+- [Day 33](#day-33)
 
 </details>
 </div>
@@ -3831,5 +3832,75 @@ public class Solution {
 Day 32 was a mind-twister that showed how complex transformations can sometimes collapse into simple XOR patterns when you spot the underlying logic. 🔁✨
 
 From recursive bit toggling to compact iterative logic, today’s problem was a beautiful reminder of how bit manipulation can turn chaos into clarity — the perfect harmony of math and code. 💡⚙️
+
+---
+
+## Day 33
+
+# ⚙️ 50 Days of LeetCode — Day 33
+
+Welcome to **Day 33** of my #50DaysOfCode challenge!  
+Today’s problem focused on **mathematical optimization** and **Euclidean reduction**, blending number theory with iterative logic. 🔢⚙️
+
+---
+
+## 🧩 Problem — Count Operations to Obtain Zero
+
+**LeetCode 2169 | Easy**
+
+### 🔍 Problem Description
+
+You are given two non-negative integers `num1` and `num2`.  
+In one operation:
+- If `num1 >= num2`, subtract `num2` from `num1`.
+- Otherwise, subtract `num1` from `num2`.
+
+The goal is to count the **number of operations** required until either `num1 = 0` or `num2 = 0`.
+
+---
+
+### 💡 Approach
+
+At first glance, the problem looks like a repetitive subtraction loop.  
+However, it’s actually based on the **Euclidean Algorithm** (used to find GCD).  
+
+Instead of subtracting one by one, we can directly count how many times the smaller number fits into the larger one — using integer division.  
+This significantly speeds up the process from *O(n)* to *O(log n)* efficiency. ⚡  
+
+Each iteration performs:
+1. Add `num1 / num2` to the operation count.
+2. Replace `(num1, num2)` with `(num2, num1 % num2)` until one of them becomes zero.
+
+---
+
+### ⚙️ Complexity
+
+- **Time Complexity:** `O(log(min(num1, num2)))`  
+- **Space Complexity:** `O(1)`
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int countOperations(int num1, int num2) {
+        int ans = 0;
+        while (num2 != 0) {  
+            ans += num1 / num2;
+            int temp = num1 % num2;
+            num1 = num2;
+            num2 = temp;
+        }
+        return ans;
+    }
+}
+```
+### 🎯 Conclusion — Day 33
+
+Day 33 was all about recognizing hidden mathematical patterns inside a simple iterative problem.
+By converting repeated subtraction into a division-based Euclidean step, I learned how mathematical insight can simplify logic and optimize runtime drastically. ⚙️💡
+
+It’s fascinating how even “easy” problems often hide elegant, high-performance solutions waiting to be uncovered. 🚀✨
 
 ---
