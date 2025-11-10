@@ -35,6 +35,7 @@
 - [Day 31](#day-31)
 - [Day 32](#day-32)
 - [Day 33](#day-33)
+- [Day 34](#day-34)
 
 </details>
 </div>
@@ -3902,5 +3903,86 @@ Day 33 was all about recognizing hidden mathematical patterns inside a simple it
 By converting repeated subtraction into a division-based Euclidean step, I learned how mathematical insight can simplify logic and optimize runtime drastically. ⚙️💡
 
 It’s fascinating how even “easy” problems often hide elegant, high-performance solutions waiting to be uncovered. 🚀✨
+
+---
+
+## Day 34
+
+# ⚙️ 50 Days of LeetCode — Day 34
+
+Welcome to **Day 34** of my #50DaysOfCode challenge!  
+Today’s problem explored **subarray manipulation**, **monotonic stack logic**, and **pattern-based operation minimization** — a perfect blend of data structure efficiency and mathematical reasoning. ⚡📊  
+
+---
+
+## 🧩 Problem — Minimum Operations to Convert All Elements to Zero  
+
+**LeetCode 3542 | Medium**
+
+### 🔍 Problem Description  
+
+You are given an array `nums` of non-negative integers.  
+In one operation, you can:
+- Select a subarray `[i, j]`.
+- Set all occurrences of the **minimum non-negative integer** in that subarray to `0`.
+
+The goal is to determine the **minimum number of operations** needed to make **all elements zero**.
+
+---
+
+### 💡 Approach  
+
+This problem initially appears to require direct simulation, but a deeper insight reveals that it’s all about **tracking distinct positive layers** of reduction.  
+
+I used a **monotonic stack-like approach** to efficiently handle overlapping subarrays and minimize redundant operations:
+1. Traverse through `nums` while maintaining a stack of increasing elements.
+2. When encountering a smaller element, pop larger ones and count unique reductions.
+3. Reset on zero, since zero acts as a natural separator for subarrays.
+4. The total count equals the distinct reduction operations needed.
+
+This approach ensures that every new “rise” or “reset” in values contributes only when truly necessary — keeping the total operations minimal. ⚙️
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(n)`  
+
+---
+
+### 💻 Code Implementation (Java)  
+
+```java
+public class Solution {
+    public int minOperations(int[] nums) {
+        int[] mq = new int[nums.length];
+        int idx = 0;
+        int res = 0;
+        for (int num : nums) {
+            if (num == 0) {
+                res += idx;
+                idx = 0;
+            } else {
+                while (idx > 0 && mq[idx - 1] >= num) {
+                    if (mq[idx - 1] > num) {
+                        res++;
+                    }
+                    idx--;
+                }
+                mq[idx++] = num;
+            }
+        }
+        return res + idx;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 34
+
+Day 34 reinforced the power of pattern recognition and stack-based reasoning in transforming a brute-force simulation into a linear-time solution.
+By treating the array as layered subarrays of rising values, I learned how to peel away each layer efficiently — turning a seemingly complex process into a clean, elegant algorithm. 🌟💡
+
+Each problem like this deepens my understanding of how data structures + logic design = true optimization magic. 🚀🔥
 
 ---
