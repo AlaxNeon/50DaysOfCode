@@ -36,6 +36,7 @@
 - [Day 32](#day-32)
 - [Day 33](#day-33)
 - [Day 34](#day-34)
+- [Day 35](#day-35)
 
 </details>
 </div>
@@ -3976,6 +3977,90 @@ public class Solution {
         return res + idx;
     }
 }
+```
+
+### 🎯 Conclusion — Day 34
+
+Day 34 reinforced the power of pattern recognition and stack-based reasoning in transforming a brute-force simulation into a linear-time solution.
+By treating the array as layered subarrays of rising values, I learned how to peel away each layer efficiently — turning a seemingly complex process into a clean, elegant algorithm. 🌟💡
+
+Each problem like this deepens my understanding of how data structures + logic design = true optimization magic. 🚀🔥
+
+---
+
+## Day 35
+
+# ⚙️ 50 Days of LeetCode — Day 35
+
+Welcome to **Day 35** of my #50DaysOfCode challenge!  
+Today’s problem explored the fascinating intersection of **Dynamic Programming (DP)** and **resource allocation logic**, testing how efficiently we can maximize subsets under multiple constraints. ⚙️💡  
+
+---
+
+## 🧩 Problem — Ones and Zeroes  
+
+**LeetCode 474 | Medium**
+
+### 🔍 Problem Description  
+
+You are given an array of binary strings `strs` and two integers `m` and `n`.  
+Your task is to find the **largest subset** of `strs` such that:  
+- The subset contains **at most `m` zeros** and **at most `n` ones**.  
+
+Essentially, it’s about choosing the most strings possible while staying within two capacity limits — one for `0`s and one for `1`s.  
+
+---
+
+### 💡 Approach  
+
+This problem is a perfect example of the **0/1 Knapsack** pattern extended into **two dimensions** — one for zeros and one for ones.  
+
+Here’s the strategy:
+1. For each binary string, count how many `0`s and `1`s it contains.
+2. Use a **2D DP table** `dp[m+1][n+1]` where `dp[i][j]` represents the maximum subset size achievable with `i` zeros and `j` ones.
+3. Iterate backward (to avoid overwriting previous states), and for each string, decide whether to include it or not.
+4. The final answer lies in `dp[m][n]`, representing the largest subset fitting within the given limits.
+
+This bottom-up dynamic approach ensures we explore all possibilities while maintaining efficiency. ⚙️✨  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(len(strs) * m * n)`  
+- **Space Complexity:** `O(m * n)`  
+
+---
+
+### 💻 Code Implementation (Java)  
+
+```java
+public class Solution {
+    public int findMaxForm(String[] strs, int m, int n) {
+        int[][] dp = new int[m + 1][n + 1];
+        
+        for (String str : strs) {
+            int zeros = 0, ones = 0;
+            
+            for (char c : str.toCharArray()) {
+                if (c == '0') zeros++;
+                else ones++;
+            }
+            
+            if (zeros > m || ones > n) continue;
+            
+            for (int i = m; i >= zeros; i--) {
+                for (int j = n; j >= ones; j--) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - zeros][j - ones] + 1);
+                }
+            }
+        }
+        
+        return dp[m][n];
+    }
+}
+
+
 ```
 
 ### 🎯 Conclusion — Day 34
