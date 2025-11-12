@@ -37,6 +37,7 @@
 - [Day 33](#day-33)
 - [Day 34](#day-34)
 - [Day 35](#day-35)
+- [Day 36](#day-36)
 
 </details>
 </div>
@@ -4063,11 +4064,114 @@ public class Solution {
 
 ```
 
-### 🎯 Conclusion — Day 34
+### 🎯 Conclusion — Day 35
 
-Day 34 reinforced the power of pattern recognition and stack-based reasoning in transforming a brute-force simulation into a linear-time solution.
-By treating the array as layered subarrays of rising values, I learned how to peel away each layer efficiently — turning a seemingly complex process into a clean, elegant algorithm. 🌟💡
+Day 35 was all about dynamic decision-making under dual constraints — a step deeper into advanced DP thinking.
+By converting the problem into a 2D knapsack model, I learned how to manage multiple resource limits efficiently while maximizing outcomes. 🧠⚡
 
-Each problem like this deepens my understanding of how data structures + logic design = true optimization magic. 🚀🔥
+It was a strong reminder that DP isn’t about memorizing patterns — it’s about structuring logic to reuse past solutions smartly. 💪🚀
+
+---
+## Day 36  
+
+# ⚙️ 50 Days of LeetCode — Day 36  
+
+Welcome to **Day 36** of my #50DaysOfCode challenge!  
+Today’s challenge delved into **GCD-based transformations**, **subarray optimization**, and **mathematical reasoning**, blending number theory with algorithmic problem-solving. 🧮⚙️  
+
+---
+
+## 🧩 Problem — Minimum Number of Operations to Make All Array Elements Equal to 1  
+
+**LeetCode 2654 | Medium**  
+
+### 🔍 Problem Description  
+
+You are given a `0-indexed` array `nums` consisting of positive integers.  
+You can perform the following operation any number of times:  
+- Choose an index `i` such that `0 <= i < n - 1`  
+- Replace **either** `nums[i]` or `nums[i+1]` with `gcd(nums[i], nums[i+1])`  
+
+Return the **minimum number of operations** needed to make **all elements in the array equal to 1**.  
+If it’s impossible, return `-1`.  
+
+---
+
+### 💡 Approach  
+
+This problem combines **mathematics** and **optimization**:  
+We first check if there are any existing `1`s — because each `1` can help convert neighboring numbers faster.  
+If `cnt1 > 0`, we simply need `n - cnt1` operations to make all elements `1`.  
+
+If there are **no 1s**, we must create one by finding the **shortest subarray** whose GCD equals `1`.  
+Each such subarray represents the minimum number of operations required to generate the first `1`.  
+
+Steps:  
+1. Count how many elements are already `1`.  
+2. If any exist, the result = `n - cnt1`.  
+3. Otherwise, for each subarray `(i, j)`, compute cumulative `gcd`.  
+4. When `gcd == 1`, update the smallest subarray length.  
+5. Final answer = `minSubarray + n - 1` (total operations).  
+
+If no subarray GCD ever reaches `1`, it’s **impossible**, hence return `-1`.  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n² * log(max(nums)))`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 💻 Code Implementation (Java)  
+
+```java
+public class Solution {
+    private int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+
+    public int minOperations(int[] nums) {
+        int cnt1 = 0;
+        int minsubarray = Integer.MAX_VALUE;
+        for (int x : nums) {
+            if (x == 1) {
+                cnt1++;
+            }
+        }
+
+        if (cnt1 > 0) {
+            return nums.length - cnt1;
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            int curgcd = nums[i];
+            for (int j = i + 1; j < nums.length; j++) {
+                curgcd = gcd(curgcd, nums[j]);
+                if (curgcd == 1) {
+                    minsubarray = Math.min(minsubarray, j - i);
+                    break;
+                }
+            }
+        }
+        if (minsubarray != Integer.MAX_VALUE) {
+            return minsubarray + nums.length - 1;
+        }
+        return -1;
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 36
+
+Day 36 was a perfect example of how number theory and logic flow together to form elegant solutions.
+By combining GCD computation with minimal subarray tracking, I learned how mathematical insight can simplify what initially feels like a brute-force process.
+
+This problem reinforced how understanding fundamental operations like GCD can unlock efficiency and clarity in algorithm design. 🚀🧠
 
 ---
