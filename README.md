@@ -38,6 +38,7 @@
 - [Day 34](#day-34)
 - [Day 35](#day-35)
 - [Day 36](#day-36)
+- [Day 37](#day-37)
 
 </details>
 </div>
@@ -4173,5 +4174,84 @@ Day 36 was a perfect example of how number theory and logic flow together to for
 By combining GCD computation with minimal subarray tracking, I learned how mathematical insight can simplify what initially feels like a brute-force process.
 
 This problem reinforced how understanding fundamental operations like GCD can unlock efficiency and clarity in algorithm design. 🚀🧠
+
+---
+
+## Day 37  
+
+# ⚙️ 50 Days of LeetCode — Day 37  
+
+Welcome to **Day 37** of my #50DaysOfCode challenge!  
+Today’s problem focused on **binary string manipulation**, **pattern observation**, and **mathematical reasoning**, bringing together logical flow and efficient iteration. 💡⚙️  
+
+---
+
+## 🧩 Problem — Maximum Number of Operations to Move Ones to the End  
+
+**LeetCode 3228 | Medium**  
+
+### 🔍 Problem Description  
+
+You are given a binary string `s`.  
+
+You can perform the following operation any number of times:  
+- Choose any index `i` where `0 <= i < s.length - 1`, such that `s[i] == '1'` and `s[i + 1] == '0'`.  
+- Move `s[i]` to the right until it reaches the end of the string or just before another `'1'`.  
+
+Return the **maximum number of operations** you can perform.  
+
+---
+
+### 💡 Approach  
+
+The key insight is to **count valid transitions** where a `'1'` can move past `'0'`s — while keeping track of how many `'1'`s have appeared so far.  
+
+Steps:  
+1. Convert the string into a character array.  
+2. Maintain two counters —  
+   - `ones` → counts how many `'1'`s are seen so far.  
+   - `result` → counts how many valid moves can be made.  
+3. Traverse the string:  
+   - For every `'1'`, increment `ones`.  
+   - Whenever a `'1'` precedes a `'0'` (i.e., `arr[i] < arr[i - 1]`), it means this `'1'` can perform operations equal to `ones`.  
+4. Sum up all possible moves.  
+
+This efficient single-pass approach captures all valid transitions without any complex rearrangement simulation. ⚡  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 💻 Code Implementation (Java)  
+
+```java
+public class Solution {
+    public int maxOperations(String s) {
+        char[] arr = s.toCharArray();
+        int result = 0;
+        int ones = 0;
+        int n = arr.length;
+        for (int i = 0; i < n; ++i) {
+            ones += arr[i] - '0';
+            if (i > 0 && arr[i] < arr[i - 1]) {
+                result += ones;
+            }
+        }
+        return result;
+    }
+}
+```
+
+---
+
+### 🎯 Conclusion — Day 37  
+
+Day 37 reinforced the beauty of **pattern-based reasoning** — showing how understanding transitions and counters can replace brute-force simulation.  
+By analyzing movement logic mathematically, I learned how to transform a seemingly complex “string shifting” problem into a clean linear solution. 🚀🧠  
 
 ---
