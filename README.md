@@ -39,6 +39,8 @@
 - [Day 35](#day-35)
 - [Day 36](#day-36)
 - [Day 37](#day-37)
+- [Day 38](#day-38)
+
 
 </details>
 </div>
@@ -4253,5 +4255,87 @@ public class Solution {
 
 Day 37 reinforced the beauty of **pattern-based reasoning** — showing how understanding transitions and counters can replace brute-force simulation.  
 By analyzing movement logic mathematically, I learned how to transform a seemingly complex “string shifting” problem into a clean linear solution. 🚀🧠  
+
+---
+## Day 38  
+
+# ⚙️ 50 Days of LeetCode — Day 38  
+
+Welcome to **Day 38** of my #50DaysOfCode challenge!  
+Today’s problem explored **2D difference arrays**, **prefix sums**, and efficient matrix range updates — turning a brute-force problem into a fast and elegant solution. ⚡📊  
+
+---
+
+## 🧩 Problem — Increment Submatrices by One  
+
+**LeetCode 2536 | Medium**  
+
+### 🔍 Problem Description  
+
+You are given an integer `n` representing an `n x n` matrix of zeroes.  
+Each query `[row1, col1, row2, col2]` increments all cells in the defined submatrix by `1`.  
+
+The challenge is to efficiently apply all queries and return the final matrix.
+
+---
+
+### 💡 Approach  
+
+Directly incrementing each submatrix per query would be too slow.  
+Instead, we use a **2D difference array**, which lets us mark each update in constant time.
+
+Steps:  
+1. Initialize a 2D diff array `g`.  
+2. For each query, increment the top-left corner and adjust boundaries using difference array rules.  
+3. Build the final matrix by applying prefix sums row-wise and column-wise.  
+
+This transforms the problem from an expensive nested update process to an efficient prefix-based solution. 🚀
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n² + q)`  
+- **Space Complexity:** `O(n²)`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int[][] rangeAddQueries(int n, int[][] queries) {
+        int[][] g = new int[n][n];
+        
+        for (int[] q : queries) {
+            int r1 = q[0], c1 = q[1], r2 = q[2], c2 = q[3];
+            
+            g[r1][c1]++;
+            if (c2 + 1 < n) g[r1][c2 + 1]--;
+            if (r2 + 1 < n) g[r2 + 1][c1]--;
+            if (r2 + 1 < n && c2 + 1 < n) g[r2 + 1][c2 + 1]++;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < n; j++) {
+                g[i][j] += g[i][j - 1];
+            }
+        }
+        
+        for (int j = 0; j < n; j++) {
+            for (int i = 1; i < n; i++) {
+                g[i][j] += g[i - 1][j];
+            }
+        }
+        
+        return g;
+    }
+}
+```
+
+### 🎯 Conclusion — Day 38  
+
+Day 38 highlighted the power of difference arrays and how they simplify multi-range updates.
+It reinforced how clever preprocessing can turn a heavy 2D problem into a clean, optimized solution. 🧠✨
 
 ---
