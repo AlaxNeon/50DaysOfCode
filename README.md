@@ -4339,3 +4339,104 @@ Day 38 highlighted the power of difference arrays and how they simplify multi-ra
 It reinforced how clever preprocessing can turn a heavy 2D problem into a clean, optimized solution. 🧠✨
 
 ---
+## Day 39  
+
+# ⚙️ 50 Days of LeetCode — Day 39  
+
+Welcome to **Day 39** of my #50DaysOfCode challenge!  
+Today’s problem was a deep dive into **binary string analysis**, **mathematical constraints**, and **optimized substring counting**.  
+A perfect blend of logic, pattern recognition, and performance-oriented thinking! 🧠⚡  
+
+---
+
+## 🧩 Problem — Count the Number of Substrings With Dominant Ones  
+
+**LeetCode 3234 | Medium**  
+
+### 🔍 Problem Description  
+
+You are given a binary string `s`.  
+A substring is said to have **dominant ones** if:  
+
+\[
+\text{#ones} \ge (\text{#zeros})^2
+\]
+
+Your task is to **count how many substrings satisfy this condition**.  
+
+With string lengths up to **40,000**, brute-force checking for all substrings is impossible — making optimization essential.  
+
+---
+
+### 💡 Approach  
+
+The challenge lies in efficiently tracking zeros and determining valid substring ranges.  
+
+This solution uses a combination of:  
+- A **zero index list** to quickly identify zero positions  
+- **Prefix-based logic** to count substrings with no zeros efficiently  
+- A mathematical limit `j*(j+1) <= length` to decide how many zero-based checks are necessary  
+- Sliding window around zero positions to compute valid ranges  
+
+Key steps:  
+1. Store indices of zeros for quick access.  
+2. For each index, count zero-free substrings using previous zero boundaries.  
+3. For substrings with zeros, calculate the maximum number of zeros allowed via mathematical constraints.  
+4. For each valid zero count, update the result by examining gaps between zero indices.  
+
+This transforms a potential *O(n²)* brute-force into a smart, optimized counting strategy. 🚀  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** ~`O(n * sqrt(n))` due to limited zero checks  
+- **Space Complexity:** `O(n)`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int numberOfSubstrings(String s) {
+        int n = s.length();
+        int[] zero = new int[n + 1];
+        int zeroCount = 0;
+        zero[zeroCount++] = -1;
+        
+        long result = 0;
+        
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '0') {
+                zero[zeroCount++] = i;
+            } else {
+                result += i - zero[zeroCount - 1];
+            }
+            
+            int maxJ = (int)((Math.sqrt(1 + 4.0 * (i + 1)) - 1) / 2);
+            int limit = Math.min(zeroCount - 1, maxJ);
+            
+            for (int j = 1; j <= limit; j++) {
+                int len = j * (j + 1);
+                int prev = zero[zeroCount - j - 1];
+                int curr = zero[zeroCount - j];
+                int from = Math.min(i - len + 1, curr);
+                
+                if (from > prev) {
+                    result += from - prev;
+                }
+            }
+        }
+        return (int) result;
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 39  
+
+Day 39 showcased the beauty of combining mathematical constraints with prefix logic to solve complex substring problems efficiently.
+This problem reinforced how thinking in terms of boundaries, zero positions, and mathematical limits can drastically reduce computation — turning an exponential problem into an elegant optimized solution. ✨
+
+---
