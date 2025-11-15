@@ -40,6 +40,7 @@
 - [Day 36](#day-36)
 - [Day 37](#day-37)
 - [Day 38](#day-38)
+- [Day 39](#day-39)
 
 
 </details>
