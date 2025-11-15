@@ -4359,9 +4359,7 @@ A perfect blend of logic, pattern recognition, and performance-oriented thinking
 You are given a binary string `s`.  
 A substring is said to have **dominant ones** if:  
 
-\[
-\text{#ones} \ge (\text{#zeros})^2
-\]
+**Ones ≥ (Zeros²)**
 
 Your task is to **count how many substrings satisfy this condition**.  
 
