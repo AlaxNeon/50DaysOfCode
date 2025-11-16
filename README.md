@@ -41,6 +41,7 @@
 - [Day 37](#day-37)
 - [Day 38](#day-38)
 - [Day 39](#day-39)
+- [Day 40](#day-40)
 
 
 </details>
@@ -4437,5 +4438,83 @@ public class Solution {
 
 Day 39 showcased the beauty of combining mathematical constraints with prefix logic to solve complex substring problems efficiently.
 This problem reinforced how thinking in terms of boundaries, zero positions, and mathematical limits can drastically reduce computation — turning an exponential problem into an elegant optimized solution. ✨
+
+---
+## Day 40  
+
+# ⚙️ 50 Days of LeetCode — Day 40  
+
+Welcome to **Day 40** of my #50DaysOfCode challenge!  
+Today’s problem focused on **binary strings**, **consecutive sequences**, and a simple but powerful counting technique that avoids generating substrings directly. ⚡🔥  
+
+---
+
+## 🧩 Problem — Number of Substrings With Only 1s  
+
+**LeetCode 1513 | Medium**  
+
+### 🔍 Problem Description  
+
+Given a binary string `s`, the goal is to count how many substrings consist only of `'1'` characters.  
+Since the total count can be large, the result is returned modulo **1,000,000,007**.
+
+---
+
+### 💡 Approach  
+
+Instead of checking every possible substring (which would be too slow), the solution uses the idea that:
+
+- Every time we encounter a `'1'`, it extends all previous `'1'`-only substrings.
+- A sequence of length `k` (like `"111"`) forms:
+  - `1` substring of length 3  
+  - `2` substrings of length 2  
+  - `3` substrings of length 1  
+- Altogether: `1 + 2 + 3 = 6` substrings.
+
+So while iterating:
+1. Maintain a running count of consecutive `'1'` characters.
+2. Add this count to the result each time a `'1'` is found.
+3. Reset the counter when a `'0'` appears.
+
+This approach avoids substring generation and works in a single pass. 🚀
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int numSub(String s) {
+        final int MOD = 1_000_000_007;
+        long res = 0;
+        int count = 0;
+        int n = s.length();
+
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) == '1') {
+                count++;
+                res += count;
+            } else {
+                count = 0;
+            }
+        }
+
+        return (int)(res % MOD);
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 40  
+
+Day 40 reinforced how recognizing patterns in sequences can simplify problems drastically.
+By counting consecutive '1' runs efficiently, we transform what appears to be a substring-heavy problem into a clean linear solution. 🧠✨
 
 ---
