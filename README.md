@@ -42,6 +42,7 @@
 - [Day 38](#day-38)
 - [Day 39](#day-39)
 - [Day 40](#day-40)
+- [Day 41](#day-41)
 
 
 </details>
@@ -4516,5 +4517,74 @@ public class Solution {
 
 Day 40 reinforced how recognizing patterns in sequences can simplify problems drastically.
 By counting consecutive '1' runs efficiently, we transform what appears to be a substring-heavy problem into a clean linear solution. 🧠✨
+
+---
+## Day 41  
+
+# ⚙️ 50 Days of LeetCode — Day 41  
+
+Welcome to **Day 41** of my #50DaysOfCode challenge!  
+Today’s problem explored **binary arrays**, **distance constraints**, and a clean linear scan to verify spacing rules between specific values. ⚡📏  
+
+---
+
+## 🧩 Problem — Check If All 1's Are at Least Length K Places Away  
+
+**LeetCode 1437 | Easy**  
+
+### 🔍 Problem Description  
+
+You are given a binary array `nums` and an integer `k`.  
+The task is to determine whether **every pair of `1`s** in the array is separated by **at least `k` zeroes**.
+
+If every `1` satisfies this spacing condition, return `true`; otherwise return `false`.
+
+---
+
+### 💡 Approach  
+
+The key observation is simple:
+
+- Track the **distance** between consecutive `1`s.
+- Maintain a counter `space` that counts how many elements have passed since the last `1`.
+- When you encounter a new `1`:
+  - If `space < k`, the spacing rule is violated → return false.
+  - Reset `space` to 0.
+
+This allows the entire check to be done in a **single pass**, without storing indices or doing extra computations. 🚀
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public boolean kLengthApart(int[] nums, int k) {
+        int space = k;
+        for (int x : nums) {
+            if (x == 1) {
+                if (space < k) return false;
+                space = 0;
+            } else {
+                space++;
+            }
+        }
+        return true;
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 41  
+
+Day 41 reinforced how simple constraints can often be validated with efficient linear logic.
+Instead of tracking all positions of 1s, a running counter was enough to ensure the spacing condition — proving again that optimal solutions often come from clean, minimalistic thinking. 🧠✨
 
 ---
