@@ -43,6 +43,7 @@
 - [Day 39](#day-39)
 - [Day 40](#day-40)
 - [Day 41](#day-41)
+- [Day 42](#day-42)
 
 
 </details>
@@ -4586,5 +4587,78 @@ public class Solution {
 
 Day 41 reinforced how simple constraints can often be validated with efficient linear logic.
 Instead of tracking all positions of 1s, a running counter was enough to ensure the spacing condition — proving again that optimal solutions often come from clean, minimalistic thinking. 🧠✨
+
+---
+## Day 42  
+
+# ⚙️ 50 Days of LeetCode — Day 42  
+
+Welcome to **Day 42** of my #50DaysOfCode challenge!  
+Today’s problem focused on interpreting **binary-encoded characters**, distinguishing between **1-bit** and **2-bit** patterns, and determining the type of the final character. ⚡🔢  
+
+---
+
+## 🧩 Problem — 1-bit and 2-bit Characters  
+
+**LeetCode 717 | Easy**  
+
+### 🔍 Problem Description  
+
+You are given an array `bits` representing a sequence of characters:  
+- `0` represents a **1-bit character**  
+- `10` or `11` represents a **2-bit character**  
+
+Since the array always ends with a `0`, you must determine whether this **last 0 represents a 1-bit character**.
+
+You decode the array **from left to right**, skipping 1 or 2 positions depending on the bit pattern.
+
+Return **true** if the last character is a *one-bit* character; otherwise return **false**.
+
+---
+
+### 💡 Approach  
+
+The idea is to simulate the decoding process:
+
+- Start from index `i = 0`.
+- If `bits[i] == 1`, it must be a **2-bit character**, so skip `i += 2`.
+- If `bits[i] == 0`, it's a **1-bit character**, so skip `i += 1`.
+- Continue until reaching the final index.
+
+In the end:
+- If `i` stops **exactly at the last index**, the last character is a 1-bit character → return true.
+- If `i` jumps past it, then the last bit was part of a 2-bit encoding → return false.
+
+A clean linear simulation solves everything efficiently. 🚀
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(1)`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public boolean isOneBitCharacter(int[] arr) {
+        int i = 0;
+        while (i < arr.length - 1) {
+            i = (arr[i] == 1) ? i + 2 : i + 1;
+        }
+        return (i == arr.length - 1);
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 42  
+
+Day 42 highlighted how some decoding problems can be solved with a simple pointer walk.
+Instead of reconstructing characters or storing patterns, just simulate the jumps — and the final position reveals the answer.
+A great reminder that minimalistic logic often leads to the cleanest solutions! 🧠✨
 
 ---
