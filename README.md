@@ -44,6 +44,7 @@
 - [Day 40](#day-40)
 - [Day 41](#day-41)
 - [Day 42](#day-42)
+- [Day 43](#day-43)
 
 
 </details>
@@ -4660,5 +4661,76 @@ public class Solution {
 Day 42 highlighted how some decoding problems can be solved with a simple pointer walk.
 Instead of reconstructing characters or storing patterns, just simulate the jumps — and the final position reveals the answer.
 A great reminder that minimalistic logic often leads to the cleanest solutions! 🧠✨
+
+---
+## Day 43  
+
+# ⚙️ 50 Days of LeetCode — Day 43  
+
+Welcome to **Day 43** of my #50DaysOfCode challenge!  
+Today’s problem explored **value tracking**, **set membership**, and repeatedly updating a number based on its presence in the array. 🔁⚡  
+
+---
+
+## 🧩 Problem — Keep Multiplying Found Values by Two  
+
+**LeetCode 2154 | Easy**  
+
+### 🔍 Problem Description  
+
+You are given an integer array `nums` and an integer `original`.  
+Your task is simple:
+
+- If `original` exists in `nums`, multiply it by 2.  
+- Repeat this process as long as the updated value still exists in the array.  
+- Once the value is not found, return it.  
+
+This creates a chain of transformations like:  
+`original → 2×original → 4×original → ...`  
+until the value no longer appears in the list.
+
+---
+
+### 💡 Approach  
+
+To efficiently check whether a number exists in `nums`, we use a **boolean lookup array**:
+
+1. Create a `seen[]` array to mark every number present in `nums`.  
+2. While the current `original` value is found in `seen`, multiply it by 2.  
+3. Stop when the value no longer exists and return it.
+
+This avoids repeated scanning of the array and makes each lookup **O(1)** — perfect for quick iterations. 🚀  
+
+---
+
+### ⚙️ Complexity  
+
+- **Time Complexity:** `O(n)`  
+- **Space Complexity:** `O(max(nums[i]))`  
+
+---
+
+### 💻 Code Implementation (Java)
+
+```java
+public class Solution {
+    public int findFinalValue(int[] nums, int original) {
+        boolean[] seen = new boolean[2001];
+        for (int x : nums) seen[x] = true;
+
+        while (original < seen.length && seen[original]) {
+            original <<= 1;
+        }
+        return original;
+    }
+}
+
+```
+
+### 🎯 Conclusion — Day 43  
+
+Day 43 demonstrated how simple problems can be optimized with the right data structure.
+Using a lookup array transformed repeated searches into instant checks, making the solution clean, fast, and scalable.
+Another reminder that smart preprocessing often leads to elegant solutions! ✨🧠
 
 ---
